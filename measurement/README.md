@@ -44,6 +44,9 @@ For a series element, with the de-embedded two-port admittance:
 - `Y11 + Y21` and `Y22 + Y21` are the shunts from PLUS and MINUS to ground (substrate and fringe).
 - With `Z_dut = -1/Y21`: series resistance `R = Re(Z_dut)` and `Q = -Im(Z_dut) / Re(Z_dut)`, versus
   frequency. Series R matters for this device: the inner fingers reach the terminal bars through single vias.
+  R is only resolvable where `|Im(Z_dut)|` is not orders of magnitude above it: at 1 GHz a 4 fF cap has
+  `|X|` = 39 kohm and `Re(Z_dut)` is noise (it can come out negative). Read R and Q near 10 GHz and above, or
+  on the large tiles (B14, B24 and up); do not report R from the small tiles at low frequency.
 - The self-resonance is where `Im(Z_dut)` crosses zero. The model expects it in band for the large
   `double` feed devices.
 
