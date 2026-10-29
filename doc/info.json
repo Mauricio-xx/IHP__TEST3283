@@ -1,0 +1,22 @@
+{
+  "name": "TEST3283",
+  "design_type": "A",
+  "technology": "IHP",
+  "unique_id": "3283",
+  "license": "Apache-2.0",
+  "trl": 0,
+  "sealring_x": 3465,
+  "sealring_y": 2582,
+  "repository": "",
+  "pdk_version": "7b41fd10473675bac0a7b1aa0410bbc9961ec96c",
+  "process": "SG13CMOS5L",
+  "dependencies": {},
+  "tools": ["klayout"],
+  "top_cell_name": "TEST3283",
+  "release": {
+    "version": "v.1.0.0",
+    "gds": "release/v.1.0.0/gds/TEST3283.gds.gz",
+    "netlist": "release/v.1.0.0/netlist",
+    "doc": "release/v.1.0.0/doc"
+  }
+}

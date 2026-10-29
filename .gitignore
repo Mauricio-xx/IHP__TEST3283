@@ -1,3 +1,4 @@
-build/
+TEST3283-main/layout/klayout/build/
 *.lyrdb
 __pycache__/
+build/
