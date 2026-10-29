@@ -37,6 +37,7 @@ LEAD_HMAX = 10.0                      # leads no wider than the patch (and < Mn_
 ARRAY_GAP = 1.0                       # gap between multiplied copies
 NOFILL_MARGIN = 5.0
 CAL_TILES = ("OP", "SHT", "A33")      # tiles that get the common DUT keepout
+LEAD_SHORT = "A33"                    # TEST9203 second open, rebuilt as a lead short ("LS")
 
 M = {1: (8, 0), 2: (10, 0), 3: (30, 0), 4: (50, 0)}
 V = {1: (19, 0), 2: (29, 0), 3: (49, 0)}
@@ -80,6 +81,9 @@ for (r, c) in sorted(dut_tiles):
     cx, cy = centre(r, c)
     wins.insert(ibox(cx - CUT_W[0], cy - CUT_W[1], cx + CUT_W[0], cy + CUT_W[1]))
     labs.insert(ibox(cx + LABEL_BOX[0], cy + LABEL_BOX[1], cx + LABEL_BOX[2], cy + LABEL_BOX[3]))
+ls_tile = [t for t in tiles if t["role"] == LEAD_SHORT][0]
+ls_cx, ls_cy = centre(ls_tile["row"], ls_tile["col"])
+labs.insert(ibox(ls_cx + LABEL_BOX[0], ls_cy + LABEL_BOX[1], ls_cx + LABEL_BOX[2], ls_cy + LABEL_BOX[3]))
 
 
 def cut_inside(ld, area):
@@ -201,6 +205,8 @@ def drop_to_patch(side, cx, cy, layer, y0, y1):
 # 5x7 bitmap glyphs: Manhattan and on grid (TextGenerator glyphs have off-grid diagonals).
 FONT = {
     "B": ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+    "L": ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+    "S": ["01111", "10000", "10000", "01110", "00001", "00001", "11110"],
     "0": ["01110", "10001", "10011", "10101", "11001", "10001", "01110"],
     "1": ["00100", "01100", "00100", "00100", "00100", "00100", "01110"],
     "2": ["01110", "10001", "00001", "00010", "00100", "01000", "11111"],
@@ -362,6 +368,20 @@ for s in slot_rows:
     print(f"{time.time() - T0:.1f}s slot {s['tile']} done", flush=True)
 
 # ---------------------------------------------------------------------------
+# 3b) Lead short: the TEST9203 second open (A33) becomes a Metal4 bar between the two landing patches,
+# the same width as the patches and the widest DUT leads. After open-short de-embedding it measures the
+# patch + TopVia1 landing and Metal4 lead resistance that stays inside every DUT measurement.
+# ---------------------------------------------------------------------------
+ls_bar = ibox(ls_cx - PATCH[1], ls_cy - PATCH[2], ls_cx + PATCH[1], ls_cy + PATCH[2])
+top.shapes(L(M[4])).insert(ls_bar)
+top.shapes(L((50, 25))).insert(pya.Text("c1", pya.Trans(int(round((ls_cx - 76.0) / dbu)), int(round(ls_cy / dbu)))))
+top.shapes(L((50, 25))).insert(pya.Text("c2", pya.Trans(int(round((ls_cx + 76.0) / dbu)), int(round(ls_cy / dbu)))))
+tile_label("LS", ls_cx, ls_cy)
+lead_short = dict(tile=LEAD_SHORT, label="LS", row=ls_tile["row"], col=ls_tile["col"], layer="Metal4",
+                  bar=[-PATCH[1], -PATCH[2], PATCH[1], PATCH[2]])
+print("LEAD SHORT", lead_short)
+
+# ---------------------------------------------------------------------------
 # 4) Same keepout in the calibration tiles, chip texts.
 # ---------------------------------------------------------------------------
 kx = max(max(-b.left, b.right) for b in keepouts)
@@ -380,7 +400,7 @@ for sh in list(texts.each(pya.Shapes.STexts)):
         sh.text = t
 
 ly.write(OUT)
-json.dump(dict(report=report, cal_keepout_halfsize=[kx, ky], removed={str(k): v for k, v in removed.items()}),
+json.dump(dict(report=report, lead_short=lead_short, cal_keepout_halfsize=[kx, ky], removed={str(k): v for k, v in removed.items()}),
           open(OUT.replace(".gds", "_build.json"), "w"), indent=1)
 for row in report:
     print(row)

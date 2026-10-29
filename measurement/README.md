@@ -18,8 +18,8 @@ Ground pads of both sides are tied together on TopMetal1 (straps above and below
 
 1. Calibrate at the probe tips on the impedance standard substrate that matches the probes (SOLT or LRRM, as
    the lab normally does). Record the method and the cal kit file.
-2. Measure `OP` (row 1, col 0) and `SHT` (row 1, col 1) on **every die** you measure, before its DUTs.
-   `A33` (row 0, col 1) is a second open, measure it too: OP vs A33 is a free repeatability check.
+2. Measure `OP` (row 1, col 0), `SHT` (row 1, col 1) and `LS` (row 0, col 1) on **every die** you measure,
+   before its DUTs.
 3. De-embed every DUT with open-short using that die's OP and SHT:
    `Y_open = Y(OP)`, `Z_short = (Y(SHT) - Y_open)^-1`, `Y_dut = ((Y_meas - Y_open)^-1 - Z_short)^-1`.
 4. Do **not** use `TH`: its pads are at +-105 um, not on the 285 um pitch of the DUTs.
@@ -29,6 +29,12 @@ Still inside the de-embedded result, and therefore NOT in the PDK model numbers:
 patch at |x| 75-77.1 um and the lead from the patch to the capacitor terminal (up to 10 um wide, on the
 terminal's metal, with a via stack up to Metal4 at the patch when that metal is below Metal4). The EM bench gives this lead correction per tile;
 compare against the model only after subtracting it.
+
+`LS` (lead short) measures that residual directly. It is the DUT fixture with a 10 um wide Metal4 bar from
+landing patch to landing patch (|x| <= 77.1 um), on the same open-short reference plane, so its
+`Z = -1/Y21` is `2 x landing + Metal4 bar`. Per DUT, scale it to that tile's actual lead length and width
+(`build/TEST3283_nofill_build.json`, EM bench). `LS` does not cover the Metal3 leads (row 0, M1-M3 tiles)
+or the MINUS leads of the `same` feed tiles; use the EM value for those.
 
 ## Extraction
 
@@ -52,7 +58,7 @@ For a series element, with the de-embedded two-port admittance:
 One Touchstone file per tile and die, raw (before de-embedding) data only. De-embedding is done in
 post-processing so it can be re-run and audited.
 
-    TEST3283_w<wafer>_d<die>_<tile>_raw.s2p        tile = B1..B45, OP, SHT, A33
+    TEST3283_w<wafer>_d<die>_<tile>_raw.s2p        tile = B1..B45, OP, SHT, LS
     TEST3283_w<wafer>_d<die>_session.json          the settings above
 
 Results are compared per tile in a single table with the model, the EM value, the lead correction and the

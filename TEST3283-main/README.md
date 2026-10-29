@@ -28,4 +28,4 @@ PDK tree is visible.
    nofill GDS.
 5. `release.sh`: gzip of the filled GDS to `release/v.1.0.0/gds/` with checksums.
 
-`doc_tables.py` prints the tables used in the README and the Datasheet from `slots.csv`.
+`doc_tables.py render` writes the top README and doc/Datasheet.md from `doc_templates/` and `slots.csv`.

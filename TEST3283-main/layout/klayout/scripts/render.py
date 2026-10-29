@@ -5,7 +5,7 @@
 import pya
 
 X0, Y0, DX, DY = 244.9, 246.43, 425.0, 418.0
-VIEWS = {"full.png": None, "tile_B1.png": (2, 0), "tile_B24.png": (4, 7), "tile_B34.png": (0, 2)}
+VIEWS = {"full.png": None, "tile_B1.png": (2, 0), "tile_B24.png": (4, 7), "tile_B34.png": (0, 2), "tile_LS.png": (0, 1)}
 
 view = pya.LayoutView()
 view.load_layout(gds, True)  # noqa: F821

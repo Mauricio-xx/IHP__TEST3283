@@ -74,6 +74,9 @@ for t in json.load(open(TILES)):
         row.update(area_left=round(al, 1), area_right=round(ar, 1),
                    left_in_dut=row["left_in_dut"] and al > 0.2 * ar,
                    right_in_dut=row["right_in_dut"] and ar > 0.2 * al)
+    if t["role"] == "A33" and dev:
+        # TEST3283 rebuilds A33 as a lead short: both signal pads on one net, separate from ground
+        row["ok"] = row["left_right_short"] and not row["signal_ground_short"]
     if t["role"] == "cap":
         row["ok"] = not row["left_right_short"] and not row["signal_ground_short"] and row["left_in_dut"] and row["right_in_dut"]
     rows.append(row)
@@ -82,5 +85,5 @@ json.dump(rows, open(OUT, "w"), indent=1)
 bad = [r for r in rows if r.get("ok") is False]
 for r in rows:
     print(r)
-print(f"CAP TILES: {sum(1 for r in rows if 'ok' in r)}, FAILING: {len(bad)}",
+print(f"CHECKED TILES: {sum(1 for r in rows if 'ok' in r)}, FAILING: {len(bad)}",
       [f"r{r['row']}c{r['col']}" for r in bad])
