@@ -198,14 +198,41 @@ def drop_to_patch(side, cx, cy, layer, y0, y1):
         top.shapes(L(V[k])).insert(via_array(land, k))
 
 
+# 5x7 bitmap glyphs: Manhattan and on grid (TextGenerator glyphs have off-grid diagonals).
+FONT = {
+    "B": ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+    "0": ["01110", "10001", "10011", "10101", "11001", "10001", "01110"],
+    "1": ["00100", "01100", "00100", "00100", "00100", "00100", "01110"],
+    "2": ["01110", "10001", "00001", "00010", "00100", "01000", "11111"],
+    "3": ["11110", "00001", "00001", "01110", "00001", "00001", "11110"],
+    "4": ["00010", "00110", "01010", "10010", "11111", "00010", "00010"],
+    "5": ["11111", "10000", "11110", "00001", "00001", "10001", "01110"],
+    "6": ["00110", "01000", "10000", "11110", "10001", "10001", "01110"],
+    "7": ["11111", "00001", "00010", "00100", "01000", "01000", "01000"],
+    "8": ["01110", "10001", "10001", "01110", "10001", "10001", "01110"],
+    "9": ["01110", "10001", "10001", "01111", "00001", "00010", "01100"],
+}
+GRID = 0.005
+
+
 def tile_label(text, cx, cy, layer=M[4]):
-    gen = pya.TextGenerator.default_generator()
-    reg = gen.text(text, dbu, 1.0)
-    h = reg.bbox().height() * dbu
-    reg = gen.text(text, dbu, LABEL_H / h)
-    bb = reg.bbox()
-    reg.move(int(round((cx + LABEL_POS[0]) / dbu)) - bb.center().x,
-             int(round((cy + LABEL_POS[1]) / dbu)) - bb.center().y)
+    px = round(LABEL_H / 7 / GRID) * GRID
+    pitch = 6 * px
+    width = pitch * len(text) - px
+    gx = lambda v: round(v / GRID) * GRID
+    x0, y0 = gx(cx + LABEL_POS[0] - width / 2), gx(cy + LABEL_POS[1] - 3.5 * px)
+    reg = pya.Region()
+    for i, ch in enumerate(text):
+        on = {(r, c) for r, bits in enumerate(FONT[ch]) for c, bit in enumerate(bits) if bit == "1"}
+        # pixels that only touch at a corner get a bridge pixel (no self-touching polygons)
+        for (r, c) in list(on):
+            for dc in (-1, 1):
+                if (r + 1, c + dc) in on and (r + 1, c) not in on and (r, c + dc) not in on:
+                    on.add((r, c + dc))
+        for (r, c) in on:
+            x, y = x0 + i * pitch + c * px, y0 + (6 - r) * px
+            reg.insert(ibox(x, y, x + px, y + px))
+    reg.merge()
     lab = ibox(cx + LABEL_BOX[0], cy + LABEL_BOX[1], cx + LABEL_BOX[2], cy + LABEL_BOX[3])
     assert lab.contains(reg.bbox().p1) and lab.contains(reg.bbox().p2), text
     top.shapes(L(layer)).insert(reg)
