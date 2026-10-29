@@ -1,0 +1,3 @@
+build/
+*.lyrdb
+__pycache__/
