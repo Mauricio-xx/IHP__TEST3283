@@ -7,62 +7,68 @@ Per tile list of the `cap_cmomi` devices. Generated from `TEST3283-main/layout/k
 (`scripts/doc_tables.py render`).
 
 - `Row, col`: tile position, rows from the bottom, columns from the left, pitch 425 x 418 um.
-- `momf twin`: the TEST9203 tile in the same position.
+- `TEST9203 position`: the TEST9203 tile in the same position (Bk sits where Ak is).
+- `momf same size`: the TEST9203 `cap_cmomf` square of the same size, for the direct momf comparison.
 - `C model`: PDK model `cap_cmomi` (`libs.tech/verilog-a/cap_cmomi/cap_cmomi.va`, `ngspice/models/cap_cmomi.lib`,
   PDK commit `7b41fd10`): `C = density[N] * active_area + Cfeed`, per cell and times `Copies`.
-  It does not include the leads and landing patches inside the tile, see measurement/README.md.
+  It does not include the leads and landing patches inside the tile; their geometry and DC resistance per tile
+  are in `TEST3283-main/layout/klayout/leads.csv`, see measurement/README.md.
 - Left signal pad = PLUS, right signal pad = MINUS in every tile.
 
-| Tile | Row, col | momf twin | l (um) | w (um) | Stack | Feed | Copies | C model per cell (fF) | C model total (fF) | Purpose |
-| --- | --- | --- | ---: | ---: | --- | --- | ---: | ---: | ---: | --- |
-| B1 | 2, 0 | A1 | 2 | 2 | M1-M4 | double | 19 | 3.59 | 68.28 | area law + momf same-size comparison |
-| B2 | 2, 1 | A2 | 4.9 | 4.9 | M1-M4 | double | 9 | 21.11 | 190.01 | area law + momf same-size comparison |
-| B3 | 2, 2 | A3 | 7.8 | 7.8 | M1-M4 | double | 5 | 59.82 | 299.09 | area law + momf same-size comparison |
-| B4 | 2, 3 | A4 | 10.7 | 10.7 | M1-M4 | double | 5 | 119.03 | 595.15 | area law + momf same-size comparison |
-| B5 | 2, 4 | A5 | 13.6 | 13.6 | M1-M4 | double | 5 | 197.66 | 988.33 | area law + momf same-size comparison |
-| B6 | 2, 5 | A6 | 16.4 | 16.4 | M1-M4 | double | 5 | 281.19 | 1405.95 | area law + momf same-size comparison |
-| B7 | 2, 6 | A7 | 22.2 | 22.2 | M1-M4 | double | 5 | 511.80 | 2558.99 | area law + momf same-size comparison |
-| B8 | 2, 7 | A8 | 28 | 28 | M1-M4 | double | 1 | 837.88 | 837.88 | area law + momf same-size comparison |
-| B9 | 3, 0 | A9 | 36.7 | 36.7 | M1-M4 | double | 1 | 1442.25 | 1442.25 | area law + momf same-size comparison |
-| B10 | 3, 1 | A10 | 45.3 | 45.3 | M1-M4 | double | 1 | 2166.27 | 2166.27 | area law + momf same-size comparison |
-| B11 | 3, 2 | A11 | 54 | 54 | M1-M4 | double | 1 | 3137.34 | 3137.34 | area law + momf same-size comparison |
-| B12 | 3, 3 | A12 | 62.7 | 62.7 | M1-M4 | double | 1 | 4230.63 | 4230.63 | area law + momf same-size comparison |
-| B13 | 3, 4 | A13 | 71.3 | 71.3 | M1-M4 | double | 1 | 5486.91 | 5486.91 | area law + momf same-size comparison |
-| B14 | 3, 5 | A14 | 80 | 80 | M1-M4 | double | 1 | 6901.95 | 6901.95 | area law + momf same-size comparison |
-| B15 | 3, 6 | A15 | 2 | 80 | M1-M4 | double | 1 | 157.15 | 157.15 | fixed w=80, C vs l intercept -> feed + width-edge |
-| B16 | 3, 7 | A16 | 5 | 80 | M1-M4 | double | 1 | 374.73 | 374.73 | fixed w=80, C vs l intercept -> feed + width-edge |
-| B17 | 4, 0 | A17 | 10 | 80 | M1-M4 | double | 1 | 809.88 | 809.88 | fixed w=80, C vs l intercept -> feed + width-edge |
-| B18 | 4, 1 | A18 | 20 | 80 | M1-M4 | double | 1 | 1680.17 | 1680.17 | fixed w=80, C vs l intercept -> feed + width-edge |
-| B19 | 4, 2 | A19 | 40 | 80 | M1-M4 | double | 1 | 3420.76 | 3420.76 | fixed w=80, C vs l intercept -> feed + width-edge |
-| B20 | 4, 3 | A20 | 80 | 2 | M1-M4 | double | 1 | 155.16 | 155.16 | fixed l=80, C vs w intercept -> finger-end/length-edge |
-| B21 | 4, 4 | A21 | 80 | 5 | M1-M4 | double | 1 | 387.81 | 387.81 | fixed l=80, C vs w intercept -> finger-end/length-edge |
-| B22 | 4, 5 | A22 | 80 | 10 | M1-M4 | double | 1 | 853.11 | 853.11 | fixed l=80, C vs w intercept -> finger-end/length-edge |
-| B23 | 4, 6 | A23 | 80 | 20 | M1-M4 | double | 1 | 1706.15 | 1706.15 | fixed l=80, C vs w intercept -> finger-end/length-edge |
-| B24 | 4, 7 | A24 | 10 | 10 | M1-M4 | same | 1 | 100.35 | 100.35 | single-side feed on via-fixed geometry (unvalidated); ny odd |
-| B25 | 5, 0 | A25 | 20.5 | 20.5 | M1-M4 | same | 1 | 453.30 | 453.30 | single-side feed on via-fixed geometry (unvalidated); ny odd |
-| B26 | 5, 1 | A26 | 44 | 44 | M1-M4 | same | 1 | 2083.57 | 2083.57 | single-side feed on via-fixed geometry (unvalidated); ny odd |
-| B27 | 5, 2 | A27 | 80 | 80 | M1-M4 | same | 1 | 6902.88 | 6902.88 | single-side feed on via-fixed geometry (unvalidated); ny odd |
-| B28 | 5, 3 | A28 | 2 | 80 | M1-M4 | same | 1 | 158.08 | 158.08 | single-side feed on via-fixed geometry (unvalidated); ny odd |
-| B29 | 5, 4 | A29 | 22.2 | 22.2 | M3-M4 | double | 1 | 259.89 | 259.89 | N2 extrapolated density 0.55 (largest EM deviation) |
-| B30 | 5, 5 | A30 | 80 | 80 | M3-M4 | double | 1 | 3488.63 | 3488.63 | N2 extrapolated density 0.55 (largest EM deviation) |
-| B31 | 5, 6 | A31 | 2 | 80 | M3-M4 | double | 1 | 85.29 | 85.29 | N2 edge/feed intercept |
-| B32 | 5, 7 | A32 | 80 | 80 | M3-M4 | same | 1 | 3489.56 | 3489.56 | N2 same: 2-metal window, VA says ~3% low feed |
-| B34 | 0, 2 | A34 | 10.7 | 10.7 | M1-M3 | double | 1 | 89.96 | 89.96 | N3 area law over size (momf had only 65.6-80) |
-| B35 | 0, 3 | A35 | 22.2 | 22.2 | M1-M3 | double | 1 | 385.84 | 385.84 | N3 area law over size (momf had only 65.6-80) |
-| B36 | 0, 4 | A36 | 45.3 | 45.3 | M1-M3 | double | 1 | 1631.36 | 1631.36 | N3 area law over size (momf had only 65.6-80) |
-| B37 | 0, 5 | A37 | 80 | 80 | M1-M3 | double | 1 | 5195.29 | 5195.29 | N3 area law over size (momf had only 65.6-80) |
-| B38 | 0, 6 | A38 | 2 | 80 | M1-M3 | double | 1 | 121.22 | 121.22 | N3 edge/feed intercept |
-| B39 | 0, 7 | A39 | 80 | 80 | M1-M3 | same | 1 | 5196.22 | 5196.22 | N3 single-side feed, layer window check |
-| B40 | 1, 2 | A40 | 10.7 | 10.7 | M2-M4 | double | 1 | 89.96 | 89.96 | N3 area law over size (momf had only 65.6-80) |
-| B41 | 1, 3 | A41 | 22.2 | 22.2 | M2-M4 | double | 1 | 385.84 | 385.84 | N3 area law over size (momf had only 65.6-80) |
-| B42 | 1, 4 | A42 | 45.3 | 45.3 | M2-M4 | double | 1 | 1631.36 | 1631.36 | N3 area law over size (momf had only 65.6-80) |
-| B43 | 1, 5 | A43 | 80 | 80 | M2-M4 | double | 1 | 5195.29 | 5195.29 | N3 area law over size (momf had only 65.6-80) |
-| B44 | 1, 6 | A44 | 2 | 80 | M2-M4 | double | 1 | 121.22 | 121.22 | N3 edge/feed intercept |
-| B45 | 1, 7 | A45 | 80 | 80 | M2-M4 | same | 1 | 5196.22 | 5196.22 | N3 single-side feed, layer window check |
+| Tile | Row, col | TEST9203 position | momf same size | l (um) | w (um) | Stack | Feed | Copies | C model per cell (fF) | C model total (fF) | Purpose |
+| --- | --- | --- | --- | ---: | ---: | --- | --- | ---: | ---: | ---: | --- |
+| B1 | 2, 0 | A1 | A1 | 2 | 2 | M1-M4 | double | 19 | 3.59 | 68.28 | area law + momf same-size comparison |
+| B2 | 2, 1 | A2 | A2 | 4.9 | 4.9 | M1-M4 | double | 9 | 21.11 | 190.01 | area law + momf same-size comparison |
+| B3 | 2, 2 | A3 | A3 | 7.8 | 7.8 | M1-M4 | double | 5 | 59.82 | 299.09 | area law + momf same-size comparison |
+| B4 | 2, 3 | A4 | A4 | 10.7 | 10.7 | M1-M4 | double | 5 | 119.03 | 595.15 | area law + momf same-size comparison |
+| B5 | 2, 4 | A5 | A5 | 13.6 | 13.6 | M1-M4 | double | 5 | 197.66 | 988.33 | area law + momf same-size comparison |
+| B6 | 2, 5 | A6 | A6 | 16.4 | 16.4 | M1-M4 | double | 5 | 281.19 | 1405.95 | area law + momf same-size comparison |
+| B7 | 2, 6 | A7 | A8 | 22.2 | 22.2 | M1-M4 | double | 5 | 511.80 | 2558.99 | area law + momf same-size comparison |
+| B8 | 2, 7 | A8 | A10 | 28 | 28 | M1-M4 | double | 1 | 837.88 | 837.88 | area law + momf same-size comparison |
+| B9 | 3, 0 | A9 | A13 | 36.7 | 36.7 | M1-M4 | double | 1 | 1442.25 | 1442.25 | area law + momf same-size comparison |
+| B10 | 3, 1 | A10 | A16 | 45.3 | 45.3 | M1-M4 | double | 1 | 2166.27 | 2166.27 | area law + momf same-size comparison |
+| B11 | 3, 2 | A11 | A19 | 54 | 54 | M1-M4 | double | 1 | 3137.34 | 3137.34 | area law + momf same-size comparison |
+| B12 | 3, 3 | A12 | A22 | 62.7 | 62.7 | M1-M4 | double | 1 | 4230.63 | 4230.63 | area law + momf same-size comparison |
+| B13 | 3, 4 | A13 | A25 | 71.3 | 71.3 | M1-M4 | double | 1 | 5486.91 | 5486.91 | area law + momf same-size comparison |
+| B14 | 3, 5 | A14 | A28 | 80 | 80 | M1-M4 | double | 1 | 6901.95 | 6901.95 | area law + momf same-size comparison |
+| B15 | 3, 6 | A15 |  | 2 | 80 | M1-M4 | double | 1 | 157.15 | 157.15 | fixed w=80, C vs l intercept -> feed + width-edge |
+| B16 | 3, 7 | A16 |  | 5 | 80 | M1-M4 | double | 1 | 374.73 | 374.73 | fixed w=80, C vs l intercept -> feed + width-edge |
+| B17 | 4, 0 | A17 |  | 10 | 80 | M1-M4 | double | 1 | 809.88 | 809.88 | fixed w=80, C vs l intercept -> feed + width-edge |
+| B18 | 4, 1 | A18 |  | 20 | 80 | M1-M4 | double | 1 | 1680.17 | 1680.17 | fixed w=80, C vs l intercept -> feed + width-edge |
+| B19 | 4, 2 | A19 |  | 40 | 80 | M1-M4 | double | 1 | 3420.76 | 3420.76 | fixed w=80, C vs l intercept -> feed + width-edge |
+| B20 | 4, 3 | A20 |  | 80 | 2 | M1-M4 | double | 1 | 155.16 | 155.16 | fixed l=80, C vs w intercept -> finger-end/length-edge |
+| B21 | 4, 4 | A21 |  | 80 | 5 | M1-M4 | double | 1 | 387.81 | 387.81 | fixed l=80, C vs w intercept -> finger-end/length-edge |
+| B22 | 4, 5 | A22 |  | 80 | 10 | M1-M4 | double | 1 | 853.11 | 853.11 | fixed l=80, C vs w intercept -> finger-end/length-edge |
+| B23 | 4, 6 | A23 |  | 80 | 20 | M1-M4 | double | 1 | 1706.15 | 1706.15 | fixed l=80, C vs w intercept -> finger-end/length-edge |
+| B24 | 4, 7 | A24 |  | 10 | 10 | M1-M4 | same | 1 | 100.35 | 100.35 | single-side feed on via-fixed geometry (unvalidated); ny odd |
+| B25 | 5, 0 | A25 |  | 20.5 | 20.5 | M1-M4 | same | 1 | 453.30 | 453.30 | single-side feed on via-fixed geometry (unvalidated); ny odd |
+| B26 | 5, 1 | A26 |  | 44 | 44 | M1-M4 | same | 1 | 2083.57 | 2083.57 | single-side feed on via-fixed geometry (unvalidated); ny odd |
+| B27 | 5, 2 | A27 |  | 80 | 80 | M1-M4 | same | 1 | 6902.88 | 6902.88 | single-side feed on via-fixed geometry (unvalidated); ny odd |
+| B28 | 5, 3 | A28 |  | 2 | 80 | M1-M4 | same | 1 | 158.08 | 158.08 | single-side feed on via-fixed geometry (unvalidated); ny odd |
+| B29 | 5, 4 | A29 |  | 22.2 | 22.2 | M3-M4 | double | 1 | 259.89 | 259.89 | N2 extrapolated density 0.55 (largest EM deviation) |
+| B30 | 5, 5 | A30 |  | 80 | 80 | M3-M4 | double | 1 | 3488.63 | 3488.63 | N2 extrapolated density 0.55 (largest EM deviation) |
+| B31 | 5, 6 | A31 |  | 2 | 80 | M3-M4 | double | 1 | 85.29 | 85.29 | N2 edge/feed intercept |
+| B32 | 5, 7 | A32 |  | 80 | 80 | M3-M4 | same | 1 | 3489.56 | 3489.56 | N2 same: 2-metal window, VA says ~3% low feed |
+| B34 | 0, 2 | A34 |  | 10.7 | 10.7 | M1-M3 | double | 1 | 89.96 | 89.96 | N3 area law over size (momf had only 65.6-80) |
+| B35 | 0, 3 | A35 |  | 22.2 | 22.2 | M1-M3 | double | 1 | 385.84 | 385.84 | N3 area law over size (momf had only 65.6-80) |
+| B36 | 0, 4 | A36 |  | 45.3 | 45.3 | M1-M3 | double | 1 | 1631.36 | 1631.36 | N3 area law over size (momf had only 65.6-80) |
+| B37 | 0, 5 | A37 |  | 80 | 80 | M1-M3 | double | 1 | 5195.29 | 5195.29 | N3 area law over size (momf had only 65.6-80) |
+| B38 | 0, 6 | A38 |  | 2 | 80 | M1-M3 | double | 1 | 121.22 | 121.22 | N3 edge/feed intercept |
+| B39 | 0, 7 | A39 |  | 80 | 80 | M1-M3 | same | 1 | 5196.22 | 5196.22 | N3 single-side feed, layer window check |
+| B40 | 1, 2 | A40 |  | 10.7 | 10.7 | M2-M4 | double | 1 | 89.96 | 89.96 | N3 area law over size (momf had only 65.6-80) |
+| B41 | 1, 3 | A41 |  | 22.2 | 22.2 | M2-M4 | double | 1 | 385.84 | 385.84 | N3 area law over size (momf had only 65.6-80) |
+| B42 | 1, 4 | A42 |  | 45.3 | 45.3 | M2-M4 | double | 1 | 1631.36 | 1631.36 | N3 area law over size (momf had only 65.6-80) |
+| B43 | 1, 5 | A43 |  | 80 | 80 | M2-M4 | double | 1 | 5195.29 | 5195.29 | N3 area law over size (momf had only 65.6-80) |
+| B44 | 1, 6 | A44 |  | 2 | 80 | M2-M4 | double | 1 | 121.22 | 121.22 | N3 edge/feed intercept |
+| B45 | 1, 7 | A45 |  | 80 | 80 | M2-M4 | same | 1 | 5196.22 | 5196.22 | N3 single-side feed, layer window check |
 
 ## Model caveats
 
 - The `same` feed term of the model (`Cfeed = 0.1625 * pad_len + 0.0916`) was fitted on pycell geometry
   without the tip vias the current pycell draws. B24-B28, B32, B39 and B45 test it.
 - The reduced stack densities (N = 2, 3) are extrapolated in the model; the largest expected deviation is M3-M4.
-- Expected values from EM simulation are in `TEST3283-main/testbenches/em`.
+- `same` feed tiles (B24-B28, B32, B39, B45): MINUS is reached through the right end of one MINUS finger row
+  (the MINUS rows only join at the stacked left pad), so the full row length is in series with the device:
+  `tap_row_R_ohm` in `leads.csv`, about 9 ohm for B27 against 0.6 ohm of model series R. Use these tiles for C
+  (Cfeed) only; their R, Q, L and SRF are not comparable with the model.
+- Expected values from EM simulation will be in `TEST3283-main/testbenches/em` (pending, not in this release).

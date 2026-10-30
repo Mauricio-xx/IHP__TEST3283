@@ -7,10 +7,12 @@ Per tile list of the `cap_cmomi` devices. Generated from `TEST3283-main/layout/k
 (`scripts/doc_tables.py render`).
 
 - `Row, col`: tile position, rows from the bottom, columns from the left, pitch 425 x 418 um.
-- `momf twin`: the TEST9203 tile in the same position.
+- `TEST9203 position`: the TEST9203 tile in the same position (Bk sits where Ak is).
+- `momf same size`: the TEST9203 `cap_cmomf` square of the same size, for the direct momf comparison.
 - `C model`: PDK model `cap_cmomi` (`libs.tech/verilog-a/cap_cmomi/cap_cmomi.va`, `ngspice/models/cap_cmomi.lib`,
   PDK commit `7b41fd10`): `C = density[N] * active_area + Cfeed`, per cell and times `Copies`.
-  It does not include the leads and landing patches inside the tile, see measurement/README.md.
+  It does not include the leads and landing patches inside the tile; their geometry and DC resistance per tile
+  are in `TEST3283-main/layout/klayout/leads.csv`, see measurement/README.md.
 - Left signal pad = PLUS, right signal pad = MINUS in every tile.
 
 {{DATASHEET}}
@@ -20,4 +22,8 @@ Per tile list of the `cap_cmomi` devices. Generated from `TEST3283-main/layout/k
 - The `same` feed term of the model (`Cfeed = 0.1625 * pad_len + 0.0916`) was fitted on pycell geometry
   without the tip vias the current pycell draws. B24-B28, B32, B39 and B45 test it.
 - The reduced stack densities (N = 2, 3) are extrapolated in the model; the largest expected deviation is M3-M4.
-- Expected values from EM simulation are in `TEST3283-main/testbenches/em`.
+- `same` feed tiles (B24-B28, B32, B39, B45): MINUS is reached through the right end of one MINUS finger row
+  (the MINUS rows only join at the stacked left pad), so the full row length is in series with the device:
+  `tap_row_R_ohm` in `leads.csv`, about 9 ohm for B27 against 0.6 ohm of model series R. Use these tiles for C
+  (Cfeed) only; their R, Q, L and SRF are not comparable with the model.
+- Expected values from EM simulation will be in `TEST3283-main/testbenches/em` (pending, not in this release).

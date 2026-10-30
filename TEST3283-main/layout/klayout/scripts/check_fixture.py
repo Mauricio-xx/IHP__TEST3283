@@ -2,6 +2,9 @@
 
   klayout -zz -r scripts/klayout_run.py -rd script=scripts/check_fixture.py -rd a=<new.gds> \
       -rd b=<TEST9203_nofill.gds> -rd tiles=tiles.json
+
+Exits non-zero on any geometry difference outside the windows, or any text difference other than the
+"PDK version:" string, which the build updates on purpose.
 """
 import json
 import pya
@@ -22,12 +25,12 @@ for t in json.load(open(tiles)):  # noqa: F821
     excl.insert(pya.DBox(cx + LABEL_BOX[0], cy + LABEL_BOX[1], cx + LABEL_BOX[2], cy + LABEL_BOX[3]).to_itype(dbu))
 
 lds = sorted({(i.layer, i.datatype) for l in (la, lb) for i in l.layer_infos()})
-diff = 0
+diff = text_diff = 0
 for ld in lds:
     ra = pya.Region(ta.begin_shapes_rec(la.layer(*ld)))
     rb = pya.Region(tb.begin_shapes_rec(lb.layer(*ld)))
     x = (ra ^ rb) - excl
-    if not x.is_empty():
+    if x.count():  # count, not is_empty: text-only layers give a non-empty region with no polygons
         diff += 1
         print("DIFF", ld, x.count(), x.bbox().to_dtype(dbu))
     txa = sorted((s.text_string, s.text_pos.x, s.text_pos.y) for s in ta.shapes(la.layer(*ld)).each(pya.Shapes.STexts))
@@ -36,4 +39,7 @@ for ld in lds:
     da = [p for p in set(txa) ^ set(txb) if not ex(p)]
     if da:
         print("TEXT DIFF", ld, da[:6])
-print("LAYERS COMPARED", len(lds), "LAYERS WITH DIFF OUTSIDE WINDOWS", diff)
+        text_diff += sum(1 for p in da if not p[0].startswith("PDK version:"))
+print("LAYERS COMPARED", len(lds), "LAYERS WITH DIFF OUTSIDE WINDOWS", diff, "UNEXPECTED TEXT DIFFS", text_diff)
+if diff or text_diff:
+    raise SystemExit(1)

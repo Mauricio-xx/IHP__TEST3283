@@ -4,7 +4,8 @@ different nets, and each signal net must reach into the DUT window.
   klayout -zz -r scripts/klayout_run.py -rd script=scripts/check_conn.py -rd gds=<chip.gds> \
       -rd tiles=tiles.json -rd out=<report.json>
 
-Run it on the original TEST9203 too: it must flag the shorted A1-A8 tiles.
+Exits non-zero if any tile fails. Run it on the original TEST9203 too, with -rd expect_fail=1: it must flag
+the shorted A1-A8 tiles.
 """
 import json
 import pya
@@ -87,3 +88,5 @@ for r in rows:
     print(r)
 print(f"CHECKED TILES: {sum(1 for r in rows if 'ok' in r)}, FAILING: {len(bad)}",
       [f"r{r['row']}c{r['col']}" for r in bad])
+if bad and not globals().get("expect_fail"):  # -rd expect_fail=1 for the TEST9203 regression run
+    raise SystemExit(1)

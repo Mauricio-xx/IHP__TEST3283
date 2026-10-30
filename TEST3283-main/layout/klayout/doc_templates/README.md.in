@@ -41,17 +41,25 @@ Sizes are `l` (finger length, along X) by `w` (along Y, rows of 0.89 um) in um. 
 terminal style: `double` has PLUS and MINUS bars on opposite sides of the cell, `same` has both on the left,
 stacked (PLUS on the top metal, MINUS one metal below). Arrays (`Copies` > 1) are stacked in Y with a 1 um gap,
 mirrored so that facing bars share a net, and connected in parallel. The model values come from the PDK
-model (`libs.tech/ngspice/models/cap_cmomi.lib`) and do not include the leads inside the tile.
+model (`libs.tech/ngspice/models/cap_cmomi.lib`) and do not include the leads inside the tile
+(`TEST3283-main/layout/klayout/leads.csv` lists them per tile).
+
+In the `same` feed tiles the MINUS terminal is the stacked left pad, but the fixture's MINUS pad is on the
+right. The right lead lands on the right end of one MINUS finger row (0.21 um wide, on every metal of the
+stack), and the MINUS rows only join at the left pad. So the full length of that row is in series with the
+device, about 9 ohm for an 80 x 80 cell (`tap_row_R_ohm` in `leads.csv`). C is not affected at low frequency;
+R, Q, L and SRF of these tiles are not comparable with the model.
 
 {{DEVICES}}
 
 The groups, in short:
 
-- **B1-B14**: full stack, double feed, the same squares as a subset of TEST9203 A1-A28, for a direct
-  comparison with `cap_cmomf` and the area law.
+- **B1-B14**: full stack, double feed, the same squares as TEST9203 A1-A6, A8, A10, A13, A16, A19, A22, A25
+  and A28 (column `momf same size` in the Datasheet), for a direct comparison with `cap_cmomf` and the area law.
 - **B15-B19 / B20-B23**: `l` sweep at `w` = 80 and `w` sweep at `l` = 80. They separate the per-length,
   per-row and feed terms of the anisotropic cell, which squares alone cannot.
 - **B24-B28**: `same` feed. The PDK model fits this feed term on a different geometry than the drawn one.
+  C only, see above.
 - **B29-B32, B34-B39, B40-B45**: the reduced stacks M3-M4, M1-M3 and M2-M4, with size, strip and `same` points.
 
 Per tile details are in [doc/Datasheet.md](./doc/Datasheet.md).
@@ -82,6 +90,7 @@ See [TEST3283-main/README.md](./TEST3283-main/README.md).
 - Connectivity, all 44 tiles: PLUS, MINUS and ground are three separate nets, and both signal nets own the
   device fingers. `LS`: both signal pads on one net, separate from ground.
 - Fixture: XOR against TEST9203 outside the device windows, no difference except the PDK version text.
+- Fill: no fill within 5 um of any device or calibration core.
 
 ## Tape out information
 

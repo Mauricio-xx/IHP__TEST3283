@@ -47,11 +47,12 @@ def groups():
 
 
 def datasheet():
-    print("| Tile | Row, col | momf twin | l (um) | w (um) | Stack | Feed | Copies | C model per cell (fF) "
-          "| C model total (fF) | Purpose |")
-    print("| --- | --- | --- | ---: | ---: | --- | --- | ---: | ---: | ---: | --- |")
+    print("| Tile | Row, col | TEST9203 position | momf same size | l (um) | w (um) | Stack | Feed | Copies "
+          "| C model per cell (fF) | C model total (fF) | Purpose |")
+    print("| --- | --- | --- | --- | ---: | ---: | --- | --- | ---: | ---: | ---: | --- |")
     for s in slots:
-        print(f"| {s['tile']} | {s['row']}, {s['col']} | {s['momf_tile']} | {num(s['l_um'])} | {num(s['w_um'])} "
+        print(f"| {s['tile']} | {s['row']}, {s['col']} | {s['momf_tile']} | {s['momf_same_size']} "
+              f"| {num(s['l_um'])} | {num(s['w_um'])} "
               f"| {stack(s)} | {s['feed']} | {s['mult']} | {float(s['C_model_cell_fF']):.2f} "
               f"| {float(s['C_total_fF']):.2f} | {' '.join(s['rationale'].split())} |")
 
