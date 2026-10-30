@@ -140,9 +140,12 @@ See [TEST3283-main/README.md](./TEST3283-main/README.md).
 
 ## Verification
 
-- DRC, full and min (with density) decks of the PDK, on the filled GDS: clean. Logs and databases are in
-  [release/v.1.0.0/doc/DRC.md](release/v.1.0.0/doc/DRC.md). The min run is the foundry precheck.
+- DRC, full and min (with density) decks of the PDK, on the filled GDS: clean. The min run is the foundry
+  precheck. Logs and databases: [release/v.1.0.0/doc/Signoff.md](release/v.1.0.0/doc/Signoff.md).
 - DRC on the nofill GDS: only the density and fill rules, the same set as TEST9203 nofill.
+- LVS of the filled GDS against [release/v.1.0.0/netlist/TEST3283.cdl](release/v.1.0.0/netlist/TEST3283.cdl)
+  (generated from `slots.csv`): netlists match. The deck compares devices, array counts and nets, not cap_cmomi
+  sizes, metal band or port names; see Signoff.md for what that leaves to the build and `check_conn.py`.
 - Connectivity, all 44 tiles: PLUS, MINUS and ground are three separate nets, and both signal nets own the
   device fingers. `LS`: both signal pads on one net, separate from ground.
 - Fixture: XOR against TEST9203 outside the device windows, no geometry difference. The only text

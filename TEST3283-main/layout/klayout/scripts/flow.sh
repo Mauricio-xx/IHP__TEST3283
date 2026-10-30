@@ -18,6 +18,17 @@ drc() {  # drc <gds> <run_dir> [--min_drc]
         --mp=1 --density_thr=8 --run_dir="$2" $3 > "$2.log" 2>&1 || true
     echo "$2: $(grep -E 'Violated rules|No DRC violations' "$2.log" | tail -1 | cut -d'|' -f3-)"
 }
+# LVS of the filled GDS against the netlist from slots.csv. Every tile labels its pads c1/c2 (TEST9203
+# fixture), so the layout's top-level port names repeat and cannot equal per-tile schematic nets: port names
+# are not compared (--ignore_top_ports_mismatch); devices and nets are.
+lvs() {  # lvs <gds> <netlist> <run_dir>
+    rm -rf "$3"; mkdir -p "$3"
+    env -u KLAYOUT_PATH KLAYOUT_HOME="$KHOME" KLAYOUT_PATH="$PDK_TREE/ihp-sg13cmos5l/libs.tech/klayout" \
+        PDK_ROOT="$PDK_TREE" PDK=ihp-sg13cmos5l python3 "$DECK/lvs/run_lvs.py" --layout="$1" --netlist="$2" \
+        --topcell="$NAME" --run_dir="$3" --run_mode=flat --purge --purge_nets --ignore_top_ports_mismatch \
+        > "$3.log" 2>&1 || true
+    echo "$3: $(grep -oE 'Outcome +\| [^|]*' "$3.log" | tail -1 | cut -d'|' -f2-)"
+}
 mkdir -p build
 scripts/build.sh "$REF" "$NAME" > build/build.log 2>&1
 echo "build: $(tail -1 build/build.log)"
@@ -40,4 +51,7 @@ drc build/${NAME}_nofill.gds build/drc_full_nofill
 for d in drc_min_fill drc_full_fill; do
     grep -q "No DRC violations" build/$d.log || { echo "$d not clean, no release"; exit 1; }
 done
+python3 scripts/lvs_netlist.py slots.csv build/${NAME}.cdl
+lvs build/${NAME}.gds build/${NAME}.cdl build/lvs
+grep -q "Congratulations! Netlists match" build/lvs.log || { echo "LVS not clean, no release"; exit 1; }
 scripts/release.sh "$NAME"

@@ -1,0 +1,54 @@
+* Extracted by KLayout with SG13CMOS5L LVS runset on : 30/10/2026 13:50
+
+.SUBCKT TEST3283 c1 c1$1 c2 c1$2 c2$1 c2$2 c1$3 c2$3 c1$4 c2$4 c1$5 c2$5 c1$6
++ c1$7 c2$6 c1$8 c2$7 c2$8 c1$9 c2$9 c1$10 c2$10 c1$11 c2$11 c1$12 c2$12 c1$13
++ c2$13 c1$14 c2$14 c1$15 c2$15 c1$16 c2$16 c1$17 c2$17 c1$18 c2$18 c1$19 c2$19
++ c1$20 c1$21 c1$22 c2$20 c2$21 c2$22 c1$23 c2$23 c1$24 c2$24 c1$25 c2$25 c1$26
++ c2$26 c1$27 c2$27 c1$28 c2$28 c1$29 c2$29 c1$30 c2$30 c1$31 c1$32 c1$33 c2$31
++ c1$34 c2$32 c1$35 c2$33 c2$34 c2$35 c2$36 c1$36 c1$37 c1$38 c2$37 c1$39 c2$38
++ c2$39 c1$40 c1$41 c2$40 c1$42 c2$41 c2$42 c1$43 c2$43
+C$1 c2 c1$2 cap_cmomi w=81.05u l=79.63u A=0p P=0u m=1
+C$2 c1$3 c2$3 cap_cmomi w=11.32u l=11.88u A=0p P=0u m=1
+C$3 c1$5 c2$5 cap_cmomi w=22u l=23.64u A=0p P=0u m=1
+C$4 c1$4 c2$4 cap_cmomi w=45.14u l=46.32u A=0p P=0u m=1
+C$5 c1 c2$1 cap_cmomi w=79.85u l=81.6u A=0p P=0u m=1
+C$6 c1$1 c2$2 cap_cmomi w=79.85u l=3.48u A=0p P=0u m=1
+C$7 c1$9 c2$9 cap_cmomi w=11.32u l=11.88u A=0p P=0u m=1
+C$8 c1$11 c2$11 cap_cmomi w=22u l=23.64u A=0p P=0u m=1
+C$9 c1$10 c2$10 cap_cmomi w=45.14u l=46.32u A=0p P=0u m=1
+C$10 c1$6 c2$7 cap_cmomi w=79.85u l=81.6u A=0p P=0u m=1
+C$11 c1$7 c2$8 cap_cmomi w=79.85u l=3.48u A=0p P=0u m=1
+C$12 c2$6 c1$8 cap_cmomi w=81.05u l=79.63u A=0p P=0u m=1
+C$13 c1$15 c2$15 cap_cmomi w=2.42u l=3.48u A=0p P=0u m=19
+C$15 c1$14 c2$14 cap_cmomi w=13.99u l=15.24u A=0p P=0u m=5
+C$16 c1$13 c2$13 cap_cmomi w=16.66u l=17.76u A=0p P=0u m=5
+C$17 c1$12 c2$12 cap_cmomi w=22u l=23.64u A=0p P=0u m=5
+C$18 c1$17 c2$17 cap_cmomi w=5.09u l=6u A=0p P=0u m=9
+C$19 c1$16 c2$16 cap_cmomi w=11.32u l=11.88u A=0p P=0u m=5
+C$26 c1$18 c2$18 cap_cmomi w=7.76u l=9.36u A=0p P=0u m=5
+C$43 c1$19 c2$19 cap_cmomi w=28.23u l=29.52u A=0p P=0u m=1
+C$67 c1$27 c2$27 cap_cmomi w=37.13u l=37.92u A=0p P=0u m=1
+C$68 c1$26 c2$26 cap_cmomi w=45.14u l=46.32u A=0p P=0u m=1
+C$69 c1$25 c2$25 cap_cmomi w=54.04u l=55.56u A=0p P=0u m=1
+C$70 c1$24 c2$24 cap_cmomi w=62.94u l=63.96u A=0p P=0u m=1
+C$71 c1$23 c2$23 cap_cmomi w=71.84u l=72.36u A=0p P=0u m=1
+C$72 c1$20 c2$20 cap_cmomi w=79.85u l=81.6u A=0p P=0u m=1
+C$73 c1$21 c2$21 cap_cmomi w=79.85u l=3.48u A=0p P=0u m=1
+C$74 c1$22 c2$22 cap_cmomi w=79.85u l=6u A=0p P=0u m=1
+C$75 c1$28 c2$28 cap_cmomi w=79.85u l=11.04u A=0p P=0u m=1
+C$76 c1$29 c2$29 cap_cmomi w=79.85u l=21.12u A=0p P=0u m=1
+C$77 c1$30 c2$30 cap_cmomi w=79.85u l=41.28u A=0p P=0u m=1
+C$78 c1$31 c2$35 cap_cmomi w=2.42u l=81.6u A=0p P=0u m=1
+C$79 c1$32 c2$34 cap_cmomi w=5.09u l=81.6u A=0p P=0u m=1
+C$80 c1$35 c2$33 cap_cmomi w=10.43u l=81.6u A=0p P=0u m=1
+C$81 c1$34 c2$32 cap_cmomi w=20.22u l=81.6u A=0p P=0u m=1
+C$82 c2$31 c1$33 cap_cmomi w=10.49u l=10.21u A=0p P=0u m=1
+C$83 c2$42 c1$42 cap_cmomi w=21.41u l=20.89u A=0p P=0u m=1
+C$84 c2$41 c1$40 cap_cmomi w=44.93u l=44.03u A=0p P=0u m=1
+C$85 c2$36 c1$36 cap_cmomi w=81.05u l=79.63u A=0p P=0u m=1
+C$86 c2$40 c1$41 cap_cmomi w=2.93u l=79.63u A=0p P=0u m=1
+C$87 c1$43 c2$43 cap_cmomi w=22u l=23.64u A=0p P=0u m=1
+C$88 c1$37 c2$38 cap_cmomi w=79.85u l=81.6u A=0p P=0u m=1
+C$89 c1$38 c2$39 cap_cmomi w=79.85u l=3.48u A=0p P=0u m=1
+C$90 c2$37 c1$39 cap_cmomi w=81.05u l=79.63u A=0p P=0u m=1
+.ENDS TEST3283
