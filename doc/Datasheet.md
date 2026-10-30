@@ -67,6 +67,9 @@ Per tile list of the `cap_cmomi` devices. Generated from `TEST3283-main/layout/k
 - The `same` feed term of the model (`Cfeed = 0.1625 * pad_len + 0.0916`) was fitted on pycell geometry
   without the tip vias the current pycell draws. B24-B28, B32, B39 and B45 test it.
 - The reduced stack densities (N = 2, 3) are extrapolated in the model; the largest expected deviation is M3-M4.
+- The model's series R, L and skin terms are transferred from the sg13g2 characterisation (`cap_cmomi.va`
+  header), whose feed has a via column the cmos5l cell does not have. R and Q of the `double` feed tiles test
+  those values; they are not a calibrated reference.
 - `same` feed tiles (B24-B28, B32, B39, B45): MINUS is reached through the right end of one MINUS finger row
   (the MINUS rows only join at the stacked left pad), so the full row length is in series with the device:
   `tap_row_R_ohm` in `leads.csv`, about 9 ohm for B27 against 0.6 ohm of model series R. Use these tiles for C
