@@ -154,4 +154,6 @@ See [TEST3283-main/README.md](./TEST3283-main/README.md).
 
 ## Tape out information
 
-Not submitted yet.
+Submission requested for the Nov-2026 Open-Silicon MPW (SG13CMOS5L), 2026-10-30:
+[IHP-GmbH/Open-Silicon-MPW#78](https://github.com/IHP-GmbH/Open-Silicon-MPW/issues/78). Not yet confirmed
+by the foundry.
