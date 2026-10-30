@@ -1,5 +1,5 @@
 #!/bin/bash
-# Full serial flow: build -> connectivity -> fixture XOR -> fill -> min DRC (density) -> full DRC -> release.
+# Full serial flow: build -> connectivity -> fixture XOR -> fill -> fill clearance -> min DRC (density) -> full DRC -> release.
 #   scripts/flow.sh [TEST9203_nofill.gds(.gz)] [name]
 # The whole flow holds the shared lock so it never overlaps with the EM runs on this machine.
 set -e
@@ -25,6 +25,9 @@ kl -zz -r scripts/klayout_run.py -rd script=scripts/check_fixture.py -rd a=build
     -rd b="$REF" -rd tiles=tiles.json | tail -2
 kl -n sg13cmos5l -zz -r "$DECK/scripts/filler.py" -rd output_file=build/${NAME}.gds build/${NAME}_nofill.gds > build/fill.log 2>&1
 echo "fill: $(tail -1 build/fill.log)"
+kl -zz -r scripts/klayout_run.py -rd script=scripts/check_fill.py -rd fill=build/${NAME}.gds \
+    -rd nofill=build/${NAME}_nofill.gds -rd tiles=tiles.json -rd build=build/${NAME}_nofill_build.json \
+    -rd out=build/fill_check.json | tail -1
 drc build/${NAME}.gds build/drc_min_fill --min_drc
 grep -E "(Metal[1-4]|TopMetal1|Activ|GatPoly) +Density %" build/drc_min_fill.log | sed 's/.*: //'
 drc build/${NAME}.gds build/drc_full_fill

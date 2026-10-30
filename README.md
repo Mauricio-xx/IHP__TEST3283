@@ -112,8 +112,8 @@ Per tile details are in [doc/Datasheet.md](./doc/Datasheet.md).
 
 The submitted GDS is filled with the PDK filler (Activ, GatPoly, Metal1-4, TopMetal1). Each device carries a
 nofill keepout (device bounding box + 5 um) on all those layers. `OP`, `SHT` and `LS` carry the largest
-device keepout, so the fill seen by the open is the fill seen by the devices. There is no fill within 2 um of
-any device or in the calibration cores (checked on the filled GDS).
+device keepout, so the fill seen by the open is the fill seen by the devices. On the filled GDS the nearest fill
+shape is at least 5 um from every device and calibration core (`scripts/check_fill.py`).
 
 ## Generator
 
