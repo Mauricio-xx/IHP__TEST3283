@@ -4,7 +4,8 @@
       -rd b=<TEST9203_nofill.gds> -rd tiles=tiles.json
 
 Exits non-zero on any geometry difference outside the windows, or any text difference other than the
-"PDK version:" string, which the build updates on purpose.
+two the build updates on purpose: the "PDK version:" string, and the sealring area line (the fixture
+labels um*um as mm^2; the size line x=3465.0 um, y=2582.0 um must stay).
 """
 import json
 import pya
@@ -24,6 +25,12 @@ for t in json.load(open(tiles)):  # noqa: F821
     excl.insert(pya.DBox(cx - CUT_W[0], cy - CUT_W[1], cx + CUT_W[0], cy + CUT_W[1]).to_itype(dbu))
     excl.insert(pya.DBox(cx + LABEL_BOX[0], cy + LABEL_BOX[1], cx + LABEL_BOX[2], cy + LABEL_BOX[3]).to_itype(dbu))
 
+def allowed(s):
+    if s.startswith("PDK version:"):
+        return True
+    return (s.startswith("Device registration size: x=3465.0 um ; y=2582.0 um")
+            and "Calculated area:" in s)
+
 lds = sorted({(i.layer, i.datatype) for l in (la, lb) for i in l.layer_infos()})
 diff = text_diff = 0
 for ld in lds:
@@ -39,7 +46,7 @@ for ld in lds:
     da = [p for p in set(txa) ^ set(txb) if not ex(p)]
     if da:
         print("TEXT DIFF", ld, da[:6])
-        text_diff += sum(1 for p in da if not p[0].startswith("PDK version:"))
+        text_diff += sum(1 for p in da if not allowed(p[0]))
 print("LAYERS COMPARED", len(lds), "LAYERS WITH DIFF OUTSIDE WINDOWS", diff, "UNEXPECTED TEXT DIFFS", text_diff)
 if diff or text_diff:
     raise SystemExit(1)

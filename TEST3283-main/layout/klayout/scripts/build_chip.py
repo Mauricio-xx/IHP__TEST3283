@@ -417,11 +417,25 @@ for t in tiles:
             top.shapes(L(ld)).insert(ibox(cx - kx, cy - ky, cx + kx, cy + ky))
 
 texts = top.shapes(L((63, 0)))
+fixed_area = 0
 for sh in list(texts.each(pya.Shapes.STexts)):
     if sh.text.string.startswith("PDK version:"):
         t = sh.text.dup()
         t.string = f"PDK version: {PDK_REV}"
         sh.text = t
+    elif sh.text.string.startswith("Device registration size:") and "Calculated area:" in sh.text.string:
+        # The fixture labels um*um as mm^2 (8.9e-06). The audit compares this string
+        # with the sealring bbox, so rewrite only the area line. The size line stays.
+        bb = top.bbox()
+        area_mm2 = (bb.width() * dbu) * (bb.height() * dbu) / 1e6
+        size_line = sh.text.string.splitlines()[0]
+        t = sh.text.dup()
+        t.string = size_line + f"\nCalculated area: {area_mm2:.5f} sq mm"
+        sh.text = t
+        fixed_area += 1
+        print("AREA", t.string.replace("\n", " | "))
+if fixed_area != 1:
+    raise SystemExit(f"expected one sealring area label, found {fixed_area}")
 
 ly.write(OUT)
 json.dump(dict(report=report, lead_short=lead_short, cal_keepout_halfsize=[kx, ky], removed={str(k): v for k, v in removed.items()}),

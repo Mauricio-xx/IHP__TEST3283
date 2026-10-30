@@ -25,12 +25,14 @@ PDK tree is visible.
 2. `check_conn.py`: per tile netlist extraction, M1 to TopMetal1. Fails if PLUS, MINUS and ground are not
    three separate nets or a signal net does not own the device. Run on TEST9203 it flags A1-A8, which are
    shorted there; that is the regression test of the check.
-3. `check_fixture.py`: XOR against TEST9203 outside the device windows.
+3. `check_fixture.py`: XOR against TEST9203 outside the device windows. Geometry must match. Text may
+   differ only in the PDK version and the sealring area line.
 4. `lead_table.py`: writes `leads.csv`.
 5. PDK `filler.py`, then `check_fill.py` (no fill within 2 um of any device or calibration core).
 6. PDK DRC: min deck with density, full deck on the filled GDS, full deck on the nofill GDS.
-7. `release.sh`: gzip of the filled GDS to `release/v.1.0.0/gds/` with checksums. It only runs when both DRC
-   runs on the filled GDS are clean, and refuses to replace an existing, different release unless `FORCE=1`.
+7. `release.sh`: gzip of the filled GDS to `release/v.1.0.0/gds/` with checksums, and the DRC logs of that
+   GDS to `release/v.1.0.0/doc/`. It only runs when both DRC runs on the filled GDS are clean, and refuses
+   to replace an existing, different release unless `FORCE=1`.
 
 Every check exits non-zero on failure and stops the flow. KLayout writes the build time into the GDS, so a
 rebuild has the same geometry but a new checksum.

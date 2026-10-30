@@ -16,7 +16,6 @@
   "release": {
     "version": "v.1.0.0",
     "gds": "release/v.1.0.0/gds/TEST3283.gds.gz",
-    "netlist": "release/v.1.0.0/netlist",
-    "doc": "release/v.1.0.0/doc"
+    "doc": "release/v.1.0.0/doc/DRC.md"
   }
 }

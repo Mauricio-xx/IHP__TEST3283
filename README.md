@@ -140,11 +140,13 @@ See [TEST3283-main/README.md](./TEST3283-main/README.md).
 
 ## Verification
 
-- DRC, full and min (with density) decks of the PDK, on the filled GDS: clean.
+- DRC, full and min (with density) decks of the PDK, on the filled GDS: clean. Logs and databases are in
+  [release/v.1.0.0/doc/DRC.md](release/v.1.0.0/doc/DRC.md). The min run is the foundry precheck.
 - DRC on the nofill GDS: only the density and fill rules, the same set as TEST9203 nofill.
 - Connectivity, all 44 tiles: PLUS, MINUS and ground are three separate nets, and both signal nets own the
   device fingers. `LS`: both signal pads on one net, separate from ground.
-- Fixture: XOR against TEST9203 outside the device windows, no difference except the PDK version text.
+- Fixture: XOR against TEST9203 outside the device windows, no geometry difference. The only text
+  changes are the PDK version and the sealring area line (8.94663 sq mm, was 8.9e-06 sq mm).
 - Fill: no fill within 5 um of any device or calibration core.
 
 ## Tape out information
