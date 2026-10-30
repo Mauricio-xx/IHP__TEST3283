@@ -343,7 +343,8 @@ for s in slot_rows:
     else:
         # The stacked pad (PLUS on mmax over MINUS on mmax-1, same footprint) runs along the bottom edge.
         # PLUS contacts it from below on mmax with a short tab just left of the pad centre, MINUS on mmax-1
-        # just right of it: centre feed, so the spread R along the pad is as low as for a full-half contact.
+        # just right of it (on B24 the tab is clipped to the pad end). Centre feed keeps the spread R along
+        # the pad well below the old single-row tap, though somewhat above a full-half contact.
         # Only the tabs touch the pad edge (fringe to the other net's pad edge, which is stacked on it); the
         # lead bars stay SAME_LEAD_DROP below and run out to risers beside the cell and up to the landings.
         # No lead crosses or encloses the device, and the two leads do not overlap.

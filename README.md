@@ -52,9 +52,10 @@ model (`libs.tech/ngspice/models/cap_cmomi.lib`) and do not include the leads in
 (`TEST3283-main/layout/klayout/leads.csv` lists them per tile).
 
 The `same` feed cells are turned 90 degrees so that their stacked pad (PLUS on the top metal over MINUS
-one metal below) runs along the bottom of the cell. Each net touches the pad with a 5 um tab near its centre (PLUS
-left of centre, MINUS right, 2 um apart); the lead bars run 3 um below the pad, so only the tabs face the
-opposite net. Each lead runs down, out and up a riser 5 um beside the cell to its landing patch. No lead crosses
+one metal below) runs along the bottom of the cell. Each net touches the pad with a 5 um tab near its
+centre (PLUS left of centre, MINUS right, 2 um apart; on B24 the tabs reach the pad ends, 4.1 um). The lead
+bars run 3 um below the pad, so only the tabs face the opposite net. Each lead runs down, out and up a riser
+5 um beside the cell to its landing patch. No lead crosses
 or encloses the device and the two leads do not overlap. These leads are longer than the `double` ones and
 are not covered by `LS`: use `leads.csv` (and the EM bench) to subtract them.
 
