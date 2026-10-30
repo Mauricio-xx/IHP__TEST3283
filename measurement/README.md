@@ -41,10 +41,10 @@ landing patch to landing patch (|x| <= 77.1 um), on the same open-short referenc
 leads (row 0, M1-M3 tiles) or the via stacks of leads below Metal4; use `leads.csv` and, once available, the
 EM value for those.
 
-`same` feed tiles (B24-B28, B32, B39, B45): the right lead lands on the right end of a single MINUS finger
-row, and the MINUS rows only join at the left pad, so the whole row is in series with the device
-(`tap_row_R_ohm` in `leads.csv`: about 1 ohm for B24, 9 ohm for B27, 17 ohm for B32). Use these tiles for C
-only. Their R, Q, L and SRF include the row and are NOT comparable with the model.
+`same` feed tiles (B24-B28, B32, B39, B45): the cell is turned 90 degrees and its stacked pad runs along the
+bottom; PLUS contacts its left half, MINUS its right half, each through a lead that goes down, out and up a
+riser beside the cell. These leads are longer than the straight `double` leads and partly run parallel to the
+cell, so `LS` does not describe them: use `leads.csv` and the EM value.
 
 ## Extraction
 
@@ -56,10 +56,8 @@ For a series element, with the de-embedded two-port admittance:
   frequency. Series R matters for this device: the inner fingers reach the terminal bars through single vias.
   R is only resolvable where `|Im(Z_dut)|` is not orders of magnitude above it: at 1 GHz a 4 fF cap has
   `|X|` = 39 kohm and `Re(Z_dut)` is noise (it can come out negative). Read R and Q near 10 GHz and above,
-  and on the large `double` feed tiles (C model above about 1 pF in the Datasheet); do not report R from the
-  small tiles at low frequency, nor from the `same` feed tiles at all (see above).
-- `same` feed tiles: the tap row R lowers the apparent C by `(2 pi f R C)^2`; take C where
-  `2 pi f R C < 0.1` (under 1 %), which is below about 250 MHz for B27.
+  and on the large tiles (C model above about 1 pF in the Datasheet); do not report R from the small tiles at
+  low frequency.
 - The self-resonance is where `Im(Z_dut)` crosses zero. The model expects it in band for the large
   `double` feed devices.
 

@@ -34,6 +34,9 @@ LABEL_BOX = (38.86, 60.0, 102.5, 104.0)
 LABEL_POS = (70.3, 82.9)              # centre of the original tile-name glyphs
 LABEL_H = 12.0
 LEAD_HMAX = 10.0                      # leads no wider than the patch (and < Mn_f_w)
+SAME_RISER_GAP = 5.0                  # same feed: clearance from the cell to the lead risers
+SAME_SPLIT_GAP = 2.0                  # same feed: gap between the PLUS and MINUS contacts on the pad
+SAME_PAD_W = 0.90                     # pycell SAME_PAD_W: stacked pad width (checked solid below)
 ARRAY_GAP = 1.0                       # gap between multiplied copies
 NOFILL_MARGIN = 5.0
 CAL_TILES = ("OP", "SHT", "A33")      # tiles that get the common DUT keepout
@@ -271,8 +274,9 @@ for s in slot_rows:
     for k in M:
         assert (plus[k] & minus[k]).is_empty(), f"{s['tile']}: nets overlap on M{k}"
 
-    # orientations of the stacked copies: facing outer bars must belong to the same net
-    trans = [pya.Trans()]
+    # orientations of the stacked copies: facing outer bars must belong to the same net.
+    # A same feed cell is turned R90 so its stacked pad (cell left edge) runs along the bottom.
+    trans = [pya.Trans(1, False, 0, 0) if feed == "same" else pya.Trans()]
     if mult > 1:
         assert feed == "double"
         core = pya.Region(cb)
@@ -312,18 +316,18 @@ for s in slot_rows:
         x0, x1 = (bb.left, bb.left + w06) if side < 0 else (bb.right - w06, bb.right)
         return (reg & pya.Region(pya.Box(x0, bb.bottom, x1, bb.top))).bbox()
 
-    # PLUS: left pad on plus_layer -> left landing
-    pad = pad_strip(plus, plus_layer, -1)
-    if mult > 1:   # bus the PLUS pads of all copies
-        top.shapes(L(M[plus_layer])).insert(pad)
-    pdy = pad.to_dtype(dbu)
-    h = min(LEAD_HMAX, pdy.height())
-    ly0, ly1 = max(pdy.center().y - cy - h / 2, -PATCH[2]), min(pdy.center().y - cy + h / 2, PATCH[2])
-    top.shapes(L(M[plus_layer])).insert(ibox(cx - PATCH[1], cy + ly0, pdy.left + 0.1, cy + ly1))
-    if plus_layer < 4:
-        drop_to_patch(-1, cx, cy, plus_layer, ly0, ly1)
-
     if feed == "double":
+        # PLUS: left pad on plus_layer -> left landing
+        pad = pad_strip(plus, plus_layer, -1)
+        if mult > 1:   # bus the PLUS pads of all copies
+            top.shapes(L(M[plus_layer])).insert(pad)
+        pdy = pad.to_dtype(dbu)
+        h = min(LEAD_HMAX, pdy.height())
+        ly0, ly1 = max(pdy.center().y - cy - h / 2, -PATCH[2]), min(pdy.center().y - cy + h / 2, PATCH[2])
+        top.shapes(L(M[plus_layer])).insert(ibox(cx - PATCH[1], cy + ly0, pdy.left + 0.1, cy + ly1))
+        if plus_layer < 4:
+            drop_to_patch(-1, cx, cy, plus_layer, ly0, ly1)
+
         pad = pad_strip(minus, minus_layer, +1)
         if mult > 1:
             top.shapes(L(M[minus_layer])).insert(pad)
@@ -331,26 +335,37 @@ for s in slot_rows:
         h = min(LEAD_HMAX, mdy.height())
         ry0, ry1 = max(mdy.center().y - cy - h / 2, -PATCH[2]), min(mdy.center().y - cy + h / 2, PATCH[2])
         top.shapes(L(M[minus_layer])).insert(ibox(mdy.right - 0.1, cy + ry0, cx + PATCH[1], cy + ry1))
+        if minus_layer < 4:
+            drop_to_patch(+1, cx, cy, minus_layer, ry0, ry1)
         minus_tap = "right pad"
     else:
-        # MINUS: extend the MINUS row on mmax-1 that ends on the right cell edge nearest y=0
+        # The stacked pad (PLUS on mmax over MINUS on mmax-1, same footprint) runs along the bottom edge.
+        # PLUS contacts the left half of it from below on mmax, MINUS the right half on mmax-1; each lead
+        # then runs down, out and up a riser beside the cell to its landing. No lead crosses or encloses
+        # the device, and the two contacts do not overlap (no plate between the leads).
+        assert mult == 1
         t = trans[0]
-        mr = minus[minus_layer].transformed(t)
-        xr = cb.transformed(t).right
-        # a 20 nm slice at the cell edge cuts only the bar ends, not the teeth
-        ends = [p.bbox() for p in (mr & pya.Region(pya.Box(xr - 20, mr.bbox().bottom, xr, mr.bbox().top))).each()]
-        assert ends, f"{s['tile']}: no MINUS row on the right edge"
-        row = min(ends, key=lambda b: abs(b.center().y - int(round(cy / dbu))))
-        rdy = row.to_dtype(dbu)
-        # the row keeps its own width for 0.7 um past the cell edge, so the wide
-        # lead stays 0.6 um away from the PLUS row ends next to it
-        top.shapes(L(M[minus_layer])).insert(ibox(rdy.right - 0.001, rdy.bottom, rdy.right + 0.7, rdy.top))
-        h = min(LEAD_HMAX, 2 * PATCH[2])
-        ry0, ry1 = -h / 2, h / 2
-        top.shapes(L(M[minus_layer])).insert(ibox(rdy.right + 0.6, cy + ry0, cx + PATCH[1], cy + ry1))
-        minus_tap = f"row y={rdy.center().y - cy:.3f}"
-    if minus_layer < 4:
-        drop_to_patch(+1, cx, cy, minus_layer, ry0, ry1)
+        pp, mp = plus[plus_layer].transformed(t), minus[minus_layer].transformed(t)
+        pad_w = int(round(SAME_PAD_W / dbu))
+        strip = pya.Box(pp.bbox().left, pp.bbox().bottom, pp.bbox().right, pp.bbox().bottom + pad_w)
+        for net in (pp, mp):
+            assert (net & pya.Region(strip)).area() == strip.area(), f"{s['tile']}: pad strip not solid"
+        sd = strip.to_dtype(dbu)
+        xm = sd.center().x
+        for side, layer, x_in in ((-1, plus_layer, xm - SAME_SPLIT_GAP / 2), (+1, minus_layer, xm + SAME_SPLIT_GAP / 2)):
+            x_edge = abb.left if side < 0 else abb.right
+            x_riser = x_edge + side * SAME_RISER_GAP                 # inner edge of the riser
+            x_out = x_riser + side * LEAD_HMAX                       # outer edge of the riser
+            y_bot = sd.bottom - LEAD_HMAX
+            lead = pya.Region()
+            lead.insert(ibox(min(x_out, x_in), y_bot, max(x_out, x_in), sd.bottom + 0.1))   # contact bar
+            lead.insert(ibox(min(x_out, x_riser), y_bot, max(x_out, x_riser), cy + PATCH[2]))  # riser
+            lead.insert(ibox(min(cx + side * PATCH[1], x_riser), cy - PATCH[2],
+                             max(cx + side * PATCH[1], x_riser), cy + PATCH[2]))       # to the landing
+            top.shapes(L(M[layer])).insert(lead.merged())
+            if layer < 4:
+                drop_to_patch(side, cx, cy, layer, -PATCH[2], PATCH[2])
+        minus_tap = "bottom pad, right half"
 
     # terminal labels, as in TEST9203 (c1 -> left pad, c2 -> right pad)
     top.shapes(L((50, 25))).insert(pya.Text("c1", pya.Trans(int(round((cx - 76.0) / dbu)), int(round(cy / dbu)))))

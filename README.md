@@ -51,11 +51,13 @@ mirrored so that facing bars share a net, and connected in parallel. The model v
 model (`libs.tech/ngspice/models/cap_cmomi.lib`) and do not include the leads inside the tile
 (`TEST3283-main/layout/klayout/leads.csv` lists them per tile).
 
-In the `same` feed tiles the MINUS terminal is the stacked left pad, but the fixture's MINUS pad is on the
-right. The right lead lands on the right end of one MINUS finger row (0.21 um wide, on every metal of the
-stack), and the MINUS rows only join at the left pad. So the full length of that row is in series with the
-device, about 9 ohm for an 80 x 80 cell (`tap_row_R_ohm` in `leads.csv`). C is not affected at low frequency;
-R, Q, L and SRF of these tiles are not comparable with the model.
+The `same` feed cells are turned 90 degrees so that their stacked pad (PLUS on the top metal over MINUS
+one metal below) runs along the bottom of the cell. PLUS contacts the left half of the pad, MINUS the right
+half, and each lead runs down, out and up a riser 5 um beside the cell to its landing patch. No lead crosses
+or encloses the device and the two leads do not overlap. These leads are longer than the `double` ones and
+are not covered by `LS`: use `leads.csv` (and the EM bench) to subtract them.
+
+![B27, same feed, 80 x 80](./doc/tile_B27.png)
 
 | Tile | l (um) | w (um) | Stack | Feed | Copies | C model, total (fF) |
 | --- | ---: | ---: | --- | --- | ---: | ---: |
@@ -111,7 +113,6 @@ The groups, in short:
 - **B15-B19 / B20-B23**: `l` sweep at `w` = 80 and `w` sweep at `l` = 80. They separate the per-length,
   per-row and feed terms of the anisotropic cell, which squares alone cannot.
 - **B24-B28**: `same` feed. The PDK model fits this feed term on a different geometry than the drawn one.
-  C only, see above.
 - **B29-B32, B34-B39, B40-B45**: the reduced stacks M3-M4, M1-M3 and M2-M4, with size, strip and `same` points.
 
 Per tile details are in [doc/Datasheet.md](./doc/Datasheet.md).

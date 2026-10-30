@@ -1,45 +1,45 @@
-tile,feed,stack,plus_layer,plus_lead_len_um,plus_lead_w_um,plus_lead_R_ohm,plus_via_to_M4,minus_layer,minus_lead_len_um,minus_lead_w_um,minus_lead_R_ohm,minus_via_to_M4,minus_tap,tap_row_len_um,tap_row_w_um,tap_row_metals,tap_row_R_ohm
-B1,double,M1-M4,Metal4,73.26,10.0,0.6447,False,Metal4,73.26,10.0,0.6447,False,right pad,,,,
-B2,double,M1-M4,Metal4,72.0,10.0,0.6336,False,Metal4,72.0,10.0,0.6336,False,right pad,,,,
-B3,double,M1-M4,Metal4,70.32,10.0,0.6188,False,Metal4,70.32,10.0,0.6188,False,right pad,,,,
-B4,double,M1-M4,Metal4,69.06,10.0,0.6077,False,Metal4,69.06,10.0,0.6077,False,right pad,,,,
-B5,double,M1-M4,Metal4,67.38,10.0,0.5929,False,Metal4,67.38,10.0,0.5929,False,right pad,,,,
-B6,double,M1-M4,Metal4,66.12,10.0,0.5819,False,Metal4,66.12,10.0,0.5819,False,right pad,,,,
-B7,double,M1-M4,Metal4,63.18,10.0,0.556,False,Metal4,63.18,10.0,0.556,False,right pad,,,,
-B8,double,M1-M4,Metal4,60.24,10.0,0.5301,False,Metal4,60.24,10.0,0.5301,False,right pad,,,,
-B9,double,M1-M4,Metal4,56.04,10.0,0.4932,False,Metal4,56.04,10.0,0.4932,False,right pad,,,,
-B10,double,M1-M4,Metal4,51.84,10.0,0.4562,False,Metal4,51.84,10.0,0.4562,False,right pad,,,,
-B11,double,M1-M4,Metal4,47.22,10.0,0.4155,False,Metal4,47.22,10.0,0.4155,False,right pad,,,,
-B12,double,M1-M4,Metal4,43.02,10.0,0.3786,False,Metal4,43.02,10.0,0.3786,False,right pad,,,,
-B13,double,M1-M4,Metal4,38.82,10.0,0.3416,False,Metal4,38.82,10.0,0.3416,False,right pad,,,,
-B14,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad,,,,
-B15,double,M1-M4,Metal4,73.26,10.0,0.6447,False,Metal4,73.26,10.0,0.6447,False,right pad,,,,
-B16,double,M1-M4,Metal4,72.0,10.0,0.6336,False,Metal4,72.0,10.0,0.6336,False,right pad,,,,
-B17,double,M1-M4,Metal4,69.48,10.0,0.6114,False,Metal4,69.48,10.0,0.6114,False,right pad,,,,
-B18,double,M1-M4,Metal4,64.44,10.0,0.5671,False,Metal4,64.44,10.0,0.5671,False,right pad,,,,
-B19,double,M1-M4,Metal4,54.36,10.0,0.4784,False,Metal4,54.36,10.0,0.4784,False,right pad,,,,
-B20,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad,,,,
-B21,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad,,,,
-B22,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad,,,,
-B23,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad,,,,
-B24,same,M1-M4,Metal4,69.755,10.0,0.6138,False,Metal3,69.755,10.0,0.6138,True,row y=-0.445,10.49,0.21,M1+M2+M3+M4,1.061
-B25,same,M1-M4,Metal4,64.295,10.0,0.5658,False,Metal3,64.295,10.0,0.5658,True,row y=-0.445,21.41,0.21,M1+M2+M3+M4,2.266
-B26,same,M1-M4,Metal4,52.535,10.0,0.4623,False,Metal3,52.535,10.0,0.4623,True,row y=0.445,44.93,0.21,M1+M2+M3+M4,4.861
-B27,same,M1-M4,Metal4,34.475,10.0,0.3034,False,Metal3,34.475,10.0,0.3034,True,row y=0.445,81.05,0.21,M1+M2+M3+M4,8.844
-B28,same,M1-M4,Metal4,73.535,10.0,0.6471,False,Metal3,73.535,10.0,0.6471,True,row y=0.445,2.93,0.21,M1+M2+M3+M4,0.219
-B29,double,M3-M4,Metal4,63.18,10.0,0.556,False,Metal4,63.18,10.0,0.556,False,right pad,,,,
-B30,double,M3-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad,,,,
-B31,double,M3-M4,Metal4,73.26,10.0,0.6447,False,Metal4,73.26,10.0,0.6447,False,right pad,,,,
-B32,same,M3-M4,Metal4,34.475,10.0,0.3034,False,Metal3,34.475,10.0,0.3034,True,row y=0.445,81.05,0.21,M3+M4,16.861
-B34,double,M1-M3,Metal3,69.06,10.0,0.6077,True,Metal3,69.06,10.0,0.6077,True,right pad,,,,
-B35,double,M1-M3,Metal3,63.18,10.0,0.556,True,Metal3,63.18,10.0,0.556,True,right pad,,,,
-B36,double,M1-M3,Metal3,51.84,10.0,0.4562,True,Metal3,51.84,10.0,0.4562,True,right pad,,,,
-B37,double,M1-M3,Metal3,34.2,10.0,0.301,True,Metal3,34.2,10.0,0.301,True,right pad,,,,
-B38,double,M1-M3,Metal3,73.26,10.0,0.6447,True,Metal3,73.26,10.0,0.6447,True,right pad,,,,
-B39,same,M1-M3,Metal3,34.475,10.0,0.3034,True,Metal2,34.475,10.0,0.3034,True,row y=0.445,81.05,0.21,M1+M2+M3,12.019
-B40,double,M2-M4,Metal4,69.06,10.0,0.6077,False,Metal4,69.06,10.0,0.6077,False,right pad,,,,
-B41,double,M2-M4,Metal4,63.18,10.0,0.556,False,Metal4,63.18,10.0,0.556,False,right pad,,,,
-B42,double,M2-M4,Metal4,51.84,10.0,0.4562,False,Metal4,51.84,10.0,0.4562,False,right pad,,,,
-B43,double,M2-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad,,,,
-B44,double,M2-M4,Metal4,73.26,10.0,0.6447,False,Metal4,73.26,10.0,0.6447,False,right pad,,,,
-B45,same,M2-M4,Metal4,34.475,10.0,0.3034,False,Metal3,34.475,10.0,0.3034,True,row y=0.445,81.05,0.21,M2+M3+M4,11.214
+tile,feed,stack,plus_layer,plus_lead_len_um,plus_lead_w_um,plus_lead_R_ohm,plus_via_to_M4,minus_layer,minus_lead_len_um,minus_lead_w_um,minus_lead_R_ohm,minus_via_to_M4,minus_tap
+B1,double,M1-M4,Metal4,73.26,10.0,0.6447,False,Metal4,73.26,10.0,0.6447,False,right pad
+B2,double,M1-M4,Metal4,72.0,10.0,0.6336,False,Metal4,72.0,10.0,0.6336,False,right pad
+B3,double,M1-M4,Metal4,70.32,10.0,0.6188,False,Metal4,70.32,10.0,0.6188,False,right pad
+B4,double,M1-M4,Metal4,69.06,10.0,0.6077,False,Metal4,69.06,10.0,0.6077,False,right pad
+B5,double,M1-M4,Metal4,67.38,10.0,0.5929,False,Metal4,67.38,10.0,0.5929,False,right pad
+B6,double,M1-M4,Metal4,66.12,10.0,0.5819,False,Metal4,66.12,10.0,0.5819,False,right pad
+B7,double,M1-M4,Metal4,63.18,10.0,0.556,False,Metal4,63.18,10.0,0.556,False,right pad
+B8,double,M1-M4,Metal4,60.24,10.0,0.5301,False,Metal4,60.24,10.0,0.5301,False,right pad
+B9,double,M1-M4,Metal4,56.04,10.0,0.4932,False,Metal4,56.04,10.0,0.4932,False,right pad
+B10,double,M1-M4,Metal4,51.84,10.0,0.4562,False,Metal4,51.84,10.0,0.4562,False,right pad
+B11,double,M1-M4,Metal4,47.22,10.0,0.4155,False,Metal4,47.22,10.0,0.4155,False,right pad
+B12,double,M1-M4,Metal4,43.02,10.0,0.3786,False,Metal4,43.02,10.0,0.3786,False,right pad
+B13,double,M1-M4,Metal4,38.82,10.0,0.3416,False,Metal4,38.82,10.0,0.3416,False,right pad
+B14,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad
+B15,double,M1-M4,Metal4,73.26,10.0,0.6447,False,Metal4,73.26,10.0,0.6447,False,right pad
+B16,double,M1-M4,Metal4,72.0,10.0,0.6336,False,Metal4,72.0,10.0,0.6336,False,right pad
+B17,double,M1-M4,Metal4,69.48,10.0,0.6114,False,Metal4,69.48,10.0,0.6114,False,right pad
+B18,double,M1-M4,Metal4,64.44,10.0,0.5671,False,Metal4,64.44,10.0,0.5671,False,right pad
+B19,double,M1-M4,Metal4,54.36,10.0,0.4784,False,Metal4,54.36,10.0,0.4784,False,right pad
+B20,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad
+B21,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad
+B22,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad
+B23,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad
+B24,same,M1-M4,Metal4,84.295,10.0,0.7418,False,Metal3,84.295,10.0,0.7418,True,"bottom pad, right half"
+B25,same,M1-M4,Metal4,89.755,10.0,0.7898,False,Metal3,89.755,10.0,0.7898,True,"bottom pad, right half"
+B26,same,M1-M4,Metal4,101.515,10.0,0.8933,False,Metal3,101.515,10.0,0.8933,True,"bottom pad, right half"
+B27,same,M1-M4,Metal4,119.575,10.0,1.0523,False,Metal3,119.575,10.0,1.0523,True,"bottom pad, right half"
+B28,same,M1-M4,Metal4,80.515,10.0,0.7085,False,Metal3,80.515,10.0,0.7085,True,"bottom pad, right half"
+B29,double,M3-M4,Metal4,63.18,10.0,0.556,False,Metal4,63.18,10.0,0.556,False,right pad
+B30,double,M3-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad
+B31,double,M3-M4,Metal4,73.26,10.0,0.6447,False,Metal4,73.26,10.0,0.6447,False,right pad
+B32,same,M3-M4,Metal4,119.575,10.0,1.0523,False,Metal3,119.575,10.0,1.0523,True,"bottom pad, right half"
+B34,double,M1-M3,Metal3,69.06,10.0,0.6077,True,Metal3,69.06,10.0,0.6077,True,right pad
+B35,double,M1-M3,Metal3,63.18,10.0,0.556,True,Metal3,63.18,10.0,0.556,True,right pad
+B36,double,M1-M3,Metal3,51.84,10.0,0.4562,True,Metal3,51.84,10.0,0.4562,True,right pad
+B37,double,M1-M3,Metal3,34.2,10.0,0.301,True,Metal3,34.2,10.0,0.301,True,right pad
+B38,double,M1-M3,Metal3,73.26,10.0,0.6447,True,Metal3,73.26,10.0,0.6447,True,right pad
+B39,same,M1-M3,Metal3,119.575,10.0,1.0523,True,Metal2,119.575,10.0,1.0523,True,"bottom pad, right half"
+B40,double,M2-M4,Metal4,69.06,10.0,0.6077,False,Metal4,69.06,10.0,0.6077,False,right pad
+B41,double,M2-M4,Metal4,63.18,10.0,0.556,False,Metal4,63.18,10.0,0.556,False,right pad
+B42,double,M2-M4,Metal4,51.84,10.0,0.4562,False,Metal4,51.84,10.0,0.4562,False,right pad
+B43,double,M2-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad
+B44,double,M2-M4,Metal4,73.26,10.0,0.6447,False,Metal4,73.26,10.0,0.6447,False,right pad
+B45,same,M2-M4,Metal4,119.575,10.0,1.0523,False,Metal3,119.575,10.0,1.0523,True,"bottom pad, right half"

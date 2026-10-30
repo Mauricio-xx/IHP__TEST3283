@@ -4,13 +4,13 @@
   klayout -zz -r scripts/klayout_run.py -rd script=scripts/lead_table.py -rd gds=<chip_nofill.gds> \
       -rd slots=slots.csv -rd build=<..._build.json> -rd itf=<sg13cmos5l_typ.itf> -rd out=leads.csv
 
-PLUS lead: from the left landing patch to the cell's left pad on the PLUS layer. MINUS lead: the mirror on
-the right for feed=double. For feed=same the right lead lands on the right end of ONE MINUS finger row
-(build json minus_tap); the MINUS rows only join at the stacked left pad, so the MINUS current also runs the
-full length of that row. Its resistance (tap_row_R_ohm) is in series with the device and not in the PDK model.
+feed=double: PLUS lead from the left landing patch straight to the cell's left pad, MINUS the mirror on the
+right. feed=same: the cell is turned R90 and its stacked pad runs along the bottom; PLUS contacts the left half
+of it on mmax, MINUS the right half on mmax-1, each lead going down, out and up a riser beside the cell to its
+landing. Their length is the lead area divided by the lead width (centre line, corners approximate).
 
-R values are DC, typical RPSQ from the PDK ITF, plain squares count: lead R excludes the landing patch and
-via stacks; tap row R treats the row on each metal as parallel strips and ignores the tooth vias.
+R values are DC, typical RPSQ from the PDK ITF, plain squares count; they exclude the landing patch and the
+via stacks.
 """
 import csv
 import json
@@ -22,6 +22,7 @@ X0, Y0, DX, DY = 244.9, 246.43, 425.0, 418.0
 REF_X = 75.0          # reference plane after open-short
 PATCH_X = 77.1        # outer edge of the Metal4 landing patch
 BAND = 5.0            # leads are clamped to |y| <= 5 um around the tile centre line
+LEAD_W = 10.0         # lead width (build_chip LEAD_HMAX)
 MET = {1: (8, 0), 2: (10, 0), 3: (30, 0), 4: (50, 0)}
 
 rpsq = {}
@@ -54,6 +55,18 @@ def lead(metal, x_out, x_in, cx, cy):
     return dict(len=round(length, 3), w=round(width, 3), R=round(rpsq[metal] * length / width, 4))
 
 
+def same_lead(metal, side, abb, cx, cy):
+    """Same feed lead on `metal`: from the reference plane to the half of the bottom pad on `side`."""
+    x0, y0, x1, y1 = abb
+    xm = (x0 + x1) / 2
+    lo, hi = sorted((side * REF_X, xm))
+    r = region(metal, (cx + lo, cy + y0 - 3 * LEAD_W, cx + hi, cy + BAND)) - region(metal, (cx + x0, cy + y0, cx + x1, cy + y1))
+    assert not r.is_empty()
+    w = LEAD_W
+    length = r.area() * dbu * dbu / w
+    return dict(len=round(length, 3), w=w, R=round(rpsq[metal] * length / w, 4))
+
+
 bj = json.load(open(BUILD))
 rep = {d["tile"]: d for d in bj["report"]}
 rows = []
@@ -62,47 +75,19 @@ for s in csv.DictReader(open(SLOTS)):
     cx, cy = X0 + DX * int(s["col"]), Y0 + DY * int(s["row"])
     x0, y0, x1, y1 = d["array_bbox"]
     pl, ml = d["plus_layer"], d["minus_layer"]
-    p = lead(pl, -PATCH_X, x0, cx, cy)
-    m = lead(ml, PATCH_X, x1, cx, cy)
+    if s["feed"] == "same":
+        p = same_lead(pl, -1, d["array_bbox"], cx, cy)
+        m = same_lead(ml, +1, d["array_bbox"], cx, cy)
+    else:
+        p = lead(pl, -PATCH_X, x0, cx, cy)
+        m = lead(ml, PATCH_X, x1, cx, cy)
     row = dict(tile=s["tile"], feed=s["feed"], stack=f"M{s['mmin']}-M{s['mmax']}",
                plus_layer=f"Metal{pl}", plus_lead_len_um=p["len"], plus_lead_w_um=p["w"], plus_lead_R_ohm=p["R"],
                plus_via_to_M4=pl < 4,
                minus_layer=f"Metal{ml}", minus_lead_len_um=m["len"], minus_lead_w_um=m["w"], minus_lead_R_ohm=m["R"],
-               minus_via_to_M4=ml < 4, minus_tap=d["minus_tap"],
-               tap_row_len_um="", tap_row_w_um="", tap_row_metals="", tap_row_R_ohm="")
-    if s["feed"] == "same":
-        ty = float(d["minus_tap"].split("=")[1])
-        g = 0.0
-        metals, w = [], None
-        length = 0.0
-        for k in range(int(s["mmin"]), int(s["mmax"]) + 1):
-            # The bar runs on every metal of the stack, tied by the tooth vias; only mmax-1 reaches the
-            # left MINUS pad. Per metal: the continuous run on the row centre line, then the widest band
-            # around it that is solid metal over that run (the bar; the comb teeth carry no row current).
-            line = region(k, (cx + x0, cy + ty - 0.005, cx + x1, cy + ty + 0.005))
-            runs = [q.bbox().to_dtype(dbu) for q in line.each()]
-            if not runs:
-                continue
-            run = max(runs, key=lambda b: b.width())
-            bar = 0.0
-            for i in range(1, 61):
-                a = 0.005 * i
-                band = (run.left, cy + ty - a, run.right, cy + ty + a)
-                full = pya.Region(pya.DBox(*band).to_itype(dbu)).area()
-                if region(k, band).area() < 0.999 * full:
-                    break
-                bar = 2 * a
-            if bar == 0.0:
-                continue
-            w = round(bar, 3)
-            g += 1.0 / (rpsq[k] * run.width() / bar)
-            length = max(length, run.width())
-            metals.append(f"M{k}")
-        row.update(tap_row_len_um=round(length, 3), tap_row_w_um=w, tap_row_metals="+".join(metals),
-                   tap_row_R_ohm=round(1.0 / g, 3) if g else "")
+               minus_via_to_M4=ml < 4, minus_tap=d["minus_tap"])
     rows.append(row)
-    print(f"{s['tile']:4s} {s['feed']:6s} plus {p['len']:6.2f}x{p['w']:5.2f}  minus {m['len']:6.2f}x{m['w']:5.2f}"
-          + (f"  tap row {row['tap_row_metals']} {row['tap_row_R_ohm']} ohm" if s["feed"] == "same" else ""))
+    print(f"{s['tile']:4s} {s['feed']:6s} plus {p['len']:6.2f}x{p['w']:5.2f}  minus {m['len']:6.2f}x{m['w']:5.2f}")
 with open(OUT, "w", newline="") as f:
     wr = csv.DictWriter(f, fieldnames=list(rows[0]))
     wr.writeheader()
