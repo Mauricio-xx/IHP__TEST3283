@@ -36,6 +36,8 @@ LABEL_H = 12.0
 LEAD_HMAX = 10.0                      # leads no wider than the patch (and < Mn_f_w)
 SAME_RISER_GAP = 5.0                  # same feed: clearance from the cell to the lead risers
 SAME_SPLIT_GAP = 2.0                  # same feed: gap between the PLUS and MINUS contacts on the pad
+SAME_TAB = 5.0                        # same feed: length of each contact tab along the pad
+SAME_LEAD_DROP = 3.0                  # same feed: lead bar clearance below the pad (only the tabs touch it)
 SAME_PAD_W = 0.90                     # pycell SAME_PAD_W: stacked pad width (checked solid below)
 ARRAY_GAP = 1.0                       # gap between multiplied copies
 NOFILL_MARGIN = 5.0
@@ -340,9 +342,11 @@ for s in slot_rows:
         minus_tap = "right pad"
     else:
         # The stacked pad (PLUS on mmax over MINUS on mmax-1, same footprint) runs along the bottom edge.
-        # PLUS contacts the left half of it from below on mmax, MINUS the right half on mmax-1; each lead
-        # then runs down, out and up a riser beside the cell to its landing. No lead crosses or encloses
-        # the device, and the two contacts do not overlap (no plate between the leads).
+        # PLUS contacts it from below on mmax with a short tab just left of the pad centre, MINUS on mmax-1
+        # just right of it: centre feed, so the spread R along the pad is as low as for a full-half contact.
+        # Only the tabs touch the pad edge (fringe to the other net's pad edge, which is stacked on it); the
+        # lead bars stay SAME_LEAD_DROP below and run out to risers beside the cell and up to the landings.
+        # No lead crosses or encloses the device, and the two leads do not overlap.
         assert mult == 1
         t = trans[0]
         pp, mp = plus[plus_layer].transformed(t), minus[minus_layer].transformed(t)
@@ -356,16 +360,20 @@ for s in slot_rows:
             x_edge = abb.left if side < 0 else abb.right
             x_riser = x_edge + side * SAME_RISER_GAP                 # inner edge of the riser
             x_out = x_riser + side * LEAD_HMAX                       # outer edge of the riser
-            y_bot = sd.bottom - LEAD_HMAX
+            y_top = sd.bottom - SAME_LEAD_DROP
+            y_bot = y_top - LEAD_HMAX
+            x_tab = x_in + side * SAME_TAB
+            x_tab = max(x_tab, sd.left) if side < 0 else min(x_tab, sd.right)   # tab stays on the pad
             lead = pya.Region()
-            lead.insert(ibox(min(x_out, x_in), y_bot, max(x_out, x_in), sd.bottom + 0.1))   # contact bar
+            lead.insert(ibox(min(x_tab, x_in), y_bot, max(x_tab, x_in), sd.bottom + 0.1))   # contact tab
+            lead.insert(ibox(min(x_out, x_in), y_bot, max(x_out, x_in), y_top))             # lead bar
             lead.insert(ibox(min(x_out, x_riser), y_bot, max(x_out, x_riser), cy + PATCH[2]))  # riser
             lead.insert(ibox(min(cx + side * PATCH[1], x_riser), cy - PATCH[2],
                              max(cx + side * PATCH[1], x_riser), cy + PATCH[2]))       # to the landing
             top.shapes(L(M[layer])).insert(lead.merged())
             if layer < 4:
                 drop_to_patch(side, cx, cy, layer, -PATCH[2], PATCH[2])
-        minus_tap = "bottom pad, right half"
+        minus_tap = "bottom pad, tab right of centre"
 
     # terminal labels, as in TEST9203 (c1 -> left pad, c2 -> right pad)
     top.shapes(L((50, 25))).insert(pya.Text("c1", pya.Trans(int(round((cx - 76.0) / dbu)), int(round(cy / dbu)))))

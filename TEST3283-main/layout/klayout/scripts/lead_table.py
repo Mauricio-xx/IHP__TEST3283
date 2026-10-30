@@ -5,9 +5,9 @@
       -rd slots=slots.csv -rd build=<..._build.json> -rd itf=<sg13cmos5l_typ.itf> -rd out=leads.csv
 
 feed=double: PLUS lead from the left landing patch straight to the cell's left pad, MINUS the mirror on the
-right. feed=same: the cell is turned R90 and its stacked pad runs along the bottom; PLUS contacts the left half
-of it on mmax, MINUS the right half on mmax-1, each lead going down, out and up a riser beside the cell to its
-landing. Their length is the lead area divided by the lead width (centre line, corners approximate).
+right. feed=same: the cell is turned R90 and its stacked pad runs along the bottom; PLUS touches it with a short tab
+left of centre on mmax, MINUS right of centre on mmax-1, each lead going down, out and up a riser beside the
+cell to its landing. Their length is the lead area divided by the lead width (centre line, corners approximate).
 
 R values are DC, typical RPSQ from the PDK ITF, plain squares count; they exclude the landing patch and the
 via stacks.
@@ -56,7 +56,7 @@ def lead(metal, x_out, x_in, cx, cy):
 
 
 def same_lead(metal, side, abb, cx, cy):
-    """Same feed lead on `metal`: from the reference plane to the half of the bottom pad on `side`."""
+    """Same feed lead on `metal`: from the reference plane to its tab on the bottom pad (`side` of centre)."""
     x0, y0, x1, y1 = abb
     xm = (x0 + x1) / 2
     lo, hi = sorted((side * REF_X, xm))

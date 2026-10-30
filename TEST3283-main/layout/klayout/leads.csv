@@ -22,24 +22,24 @@ B20,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right
 B21,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad
 B22,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad
 B23,double,M1-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad
-B24,same,M1-M4,Metal4,84.295,10.0,0.7418,False,Metal3,84.295,10.0,0.7418,True,"bottom pad, right half"
-B25,same,M1-M4,Metal4,89.755,10.0,0.7898,False,Metal3,89.755,10.0,0.7898,True,"bottom pad, right half"
-B26,same,M1-M4,Metal4,101.515,10.0,0.8933,False,Metal3,101.515,10.0,0.8933,True,"bottom pad, right half"
-B27,same,M1-M4,Metal4,119.575,10.0,1.0523,False,Metal3,119.575,10.0,1.0523,True,"bottom pad, right half"
-B28,same,M1-M4,Metal4,80.515,10.0,0.7085,False,Metal3,80.515,10.0,0.7085,True,"bottom pad, right half"
+B24,same,M1-M4,Metal4,88.477,10.0,0.7786,False,Metal3,88.477,10.0,0.7786,True,"bottom pad, tab right of centre"
+B25,same,M1-M4,Metal4,94.205,10.0,0.829,False,Metal3,94.205,10.0,0.829,True,"bottom pad, tab right of centre"
+B26,same,M1-M4,Metal4,105.965,10.0,0.9325,False,Metal3,105.965,10.0,0.9325,True,"bottom pad, tab right of centre"
+B27,same,M1-M4,Metal4,124.025,10.0,1.0914,False,Metal3,124.025,10.0,1.0914,True,"bottom pad, tab right of centre"
+B28,same,M1-M4,Metal4,84.965,10.0,0.7477,False,Metal3,84.965,10.0,0.7477,True,"bottom pad, tab right of centre"
 B29,double,M3-M4,Metal4,63.18,10.0,0.556,False,Metal4,63.18,10.0,0.556,False,right pad
 B30,double,M3-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad
 B31,double,M3-M4,Metal4,73.26,10.0,0.6447,False,Metal4,73.26,10.0,0.6447,False,right pad
-B32,same,M3-M4,Metal4,119.575,10.0,1.0523,False,Metal3,119.575,10.0,1.0523,True,"bottom pad, right half"
+B32,same,M3-M4,Metal4,124.025,10.0,1.0914,False,Metal3,124.025,10.0,1.0914,True,"bottom pad, tab right of centre"
 B34,double,M1-M3,Metal3,69.06,10.0,0.6077,True,Metal3,69.06,10.0,0.6077,True,right pad
 B35,double,M1-M3,Metal3,63.18,10.0,0.556,True,Metal3,63.18,10.0,0.556,True,right pad
 B36,double,M1-M3,Metal3,51.84,10.0,0.4562,True,Metal3,51.84,10.0,0.4562,True,right pad
 B37,double,M1-M3,Metal3,34.2,10.0,0.301,True,Metal3,34.2,10.0,0.301,True,right pad
 B38,double,M1-M3,Metal3,73.26,10.0,0.6447,True,Metal3,73.26,10.0,0.6447,True,right pad
-B39,same,M1-M3,Metal3,119.575,10.0,1.0523,True,Metal2,119.575,10.0,1.0523,True,"bottom pad, right half"
+B39,same,M1-M3,Metal3,124.025,10.0,1.0914,True,Metal2,124.025,10.0,1.0914,True,"bottom pad, tab right of centre"
 B40,double,M2-M4,Metal4,69.06,10.0,0.6077,False,Metal4,69.06,10.0,0.6077,False,right pad
 B41,double,M2-M4,Metal4,63.18,10.0,0.556,False,Metal4,63.18,10.0,0.556,False,right pad
 B42,double,M2-M4,Metal4,51.84,10.0,0.4562,False,Metal4,51.84,10.0,0.4562,False,right pad
 B43,double,M2-M4,Metal4,34.2,10.0,0.301,False,Metal4,34.2,10.0,0.301,False,right pad
 B44,double,M2-M4,Metal4,73.26,10.0,0.6447,False,Metal4,73.26,10.0,0.6447,False,right pad
-B45,same,M2-M4,Metal4,119.575,10.0,1.0523,False,Metal3,119.575,10.0,1.0523,True,"bottom pad, right half"
+B45,same,M2-M4,Metal4,124.025,10.0,1.0914,False,Metal3,124.025,10.0,1.0914,True,"bottom pad, tab right of centre"

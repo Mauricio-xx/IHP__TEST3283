@@ -70,7 +70,7 @@ Per tile list of the `cap_cmomi` devices. Generated from `TEST3283-main/layout/k
 - The model's series R, L and skin terms are transferred from sg13g2 (`cap_cmomi.va` header), where they come
   from EM analysis, not from silicon measurement, on a feed with a via column the cmos5l cell does not have.
   No measured reference exists for them yet: R and Q of the `double` feed tiles are their first measurement.
-- `same` feed tiles (B24-B28, B32, B39, B45): the cell is turned 90 degrees, PLUS and MINUS contact the two
-  halves of the stacked pad from below. Their leads are longer than the `double` ones (`leads.csv`) and are not
+- `same` feed tiles (B24-B28, B32, B39, B45): the cell is turned 90 degrees, PLUS and MINUS contact the
+  stacked pad from below with 5 um tabs near its centre, 2 um apart, so the added fringe stays small. Their leads are longer than the `double` ones (`leads.csv`) and are not
   covered by `LS`; subtract them before comparing R and L with the model.
 - Expected values from EM simulation will be in `TEST3283-main/testbenches/em` (pending, not in this release).

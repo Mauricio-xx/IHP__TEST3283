@@ -42,8 +42,8 @@ leads (row 0, M1-M3 tiles) or the via stacks of leads below Metal4; use `leads.c
 EM value for those.
 
 `same` feed tiles (B24-B28, B32, B39, B45): the cell is turned 90 degrees and its stacked pad runs along the
-bottom; PLUS contacts its left half, MINUS its right half, each through a lead that goes down, out and up a
-riser beside the cell. These leads are longer than the straight `double` leads and partly run parallel to the
+bottom; PLUS and MINUS touch it with 5 um tabs near its centre (PLUS left, MINUS right, 2 um apart), each
+tab fed by a lead that runs 3 um below the pad, then out and up a riser beside the cell. These leads are longer than the straight `double` leads and partly run parallel to the
 cell, so `LS` does not describe them: use `leads.csv` and the EM value.
 
 ## Extraction
